@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
 
     private Label scoreLabel;
+    private Label SurvivedTime;
     private Image[] Hearts;
     private VisualElement HeartsParent;
     List<VisualElement> hearts = new List<VisualElement>();
@@ -15,6 +16,7 @@ public class UIManager : MonoBehaviour
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         scoreLabel = root.Q<Label>("ScoreText");
+        SurvivedTime = root.Q<Label>("SurvivalTime");
         HeartsParent = root.Q<VisualElement>("Hearts");
         
         hearts.Add(HeartsParent.Q<VisualElement>("Heart1"));
@@ -38,6 +40,15 @@ public class UIManager : MonoBehaviour
     public void AddScore(int score)
     {
         scoreLabel.text = score.ToString();
+    }
+
+    public void AddSurvivalTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+
+        SurvivedTime.text = minutes.ToString("00") + ":" + seconds.ToString("00");
+       
     }
 
 }

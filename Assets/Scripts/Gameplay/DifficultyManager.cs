@@ -98,6 +98,7 @@ public class DifficultyManager : MonoBehaviour
     public void LevelOne() //Spawn ball
     {
         gameManager.SpawnBall();
+
     }
 
     public void LevelTwo() // adding Swing to ball

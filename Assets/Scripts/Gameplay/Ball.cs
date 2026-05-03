@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class Ball : MonoBehaviour
     private int Score;
     AudioSource BallTapSFX;
     [HideInInspector]
-    
     int TwoXBallSpawnDelay = 50;
+    float BallLifeSpan = 5f;
+    
 
 
     private void Start()
@@ -18,6 +20,7 @@ public class Ball : MonoBehaviour
         difficultyManager = FindAnyObjectByType<DifficultyManager>();
         BallTapSFX = GameObject.Find("Ball Tap SFX").GetComponent<AudioSource>();
         Score = gameManager.score;
+        StartCoroutine(BallLifeSpanCoroutine());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -49,7 +52,8 @@ public class Ball : MonoBehaviour
     {
         if (Score <= 10)
         {
-            difficultyManager.LevelOne();  //spawn ball
+            difficultyManager.LevelOne();
+            
         }
 
         else if (Score > 10 && Score <= 20)
@@ -162,6 +166,40 @@ public class Ball : MonoBehaviour
             difficultyManager.TwoXBall();
             TwoXBallSpawnDelay += 80;
         }
+    }
+
+    IEnumerator BallLifeSpanCoroutine()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < BallLifeSpan)
+        {
+            float t = elapsed / BallLifeSpan;
+
+            // Smooth transition from green → red
+            gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Color.red, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+        if (gameManager.Health > 0)
+        {
+            gameManager.HealthSystem();
+
+            // If health reached zero after decrement, trigger game over immediately
+            if (gameManager.Health <= 0)
+            {
+                gameManager.GameOver();
+            }
+        }
+        else
+        {
+            // If health was already zero or below, ensure game over runs
+            gameManager.GameOver();
+        }
+        LevelSelect();
     }
 
 }

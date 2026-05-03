@@ -522,7 +522,6 @@ MonoBehaviour:
   BallLastPos: {x: 0, y: 0}
   GameoverWindow: {fileID: 1645700745}
   BGM: {fileID: 501163174}
-  vcam: {fileID: 335702436}
   MissedTap: {fileID: 913580491}
 --- !u!114 &404407208
 MonoBehaviour:
