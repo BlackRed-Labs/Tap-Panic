@@ -26,16 +26,15 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Vector2 hitPoint = collision.GetContact(0).point;
+        if (gameManager != null)
+        {
+            gameManager.BallBounceEffect(gameObject.GetComponent<SpriteRenderer>().color, hitPoint);
+        }
 
-        ParticleSystem bounceParticleSystem = Instantiate(gameManager.Bounceffect, hitPoint, Quaternion.identity).GetComponent<ParticleSystem>();
-
-        var main = bounceParticleSystem.main;
-
-        main.startColor =
-            GetComponent<SpriteRenderer>().color;
-
-        bounceParticleSystem.Play();
-        AudioManager.Instance.BallBounceSFX();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.BallBounceSFX();
+        }
 
     }
 

@@ -17,14 +17,13 @@ public class UIManager : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         scoreLabel = root.Q<Label>("ScoreText");
         SurvivedTime = root.Q<Label>("SurvivalTime");
-        HeartsParent = root.Q<VisualElement>("Hearts");
+        HeartsParent = root.Q<GroupBox>("Hearts");
         
-        hearts.Add(HeartsParent.Q<VisualElement>("Heart1"));
-        hearts.Add(HeartsParent.Q<VisualElement>("Heart2"));
-        hearts.Add(HeartsParent.Q<VisualElement>("Heart3"));
-        hearts.Add(HeartsParent.Q<VisualElement>("Heart4"));
-        hearts.Add(HeartsParent.Q<VisualElement>("Heart5"));
-
+        hearts.Add(HeartsParent.Q<Image>("Heart1"));
+        hearts.Add(HeartsParent.Q<Image>("Heart2"));
+        hearts.Add(HeartsParent.Q<Image>("Heart3"));
+        hearts.Add(HeartsParent.Q<Image>("Heart4"));
+        hearts.Add(HeartsParent.Q<Image>("Heart5"));
     }
 
     public void RemoveLife(int Life)

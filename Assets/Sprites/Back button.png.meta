@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 494f47f00e2092848be79aefe593d6d8
+guid: 8da1f9c3e65f0ed4e963bae90175ebfe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7810490808143882017
-    second: Coin (1)_0
+      213: -1130996680862647892
+    second: Back button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Coin (1)_0
+      name: Back button_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 512
+        width: 118
+        height: 110
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 127aedc1200746c60800000000000000
-      internalID: 7810490808143882017
+      spriteID: ca93903d284ed40f0800000000000000
+      internalID: -1130996680862647892
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Coin (1)_0: 7810490808143882017
+      Back button_0: -1130996680862647892
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

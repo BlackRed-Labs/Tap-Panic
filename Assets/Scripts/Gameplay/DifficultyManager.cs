@@ -9,7 +9,7 @@ public class DifficultyManager : MonoBehaviour
     private GameObject SpawnedBall;
     Rigidbody2D Ballrb;
     public float BallForce = 10f;
-    public float CurrectScaleOfBall = 1.3f;
+    public float CurrectScaleOfBall = 1.5f;
     public GameObject _BombPreFab;
     public GameObject _2XBallPrefab;
     public GameObject _HeartBall;

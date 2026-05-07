@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
     {
         Health--;
         cameraShake();
-        UIManager.RemoveLife(Health);
+        UIManager.RemoveLife(4-Health);
     }
     #endregion
 
@@ -177,6 +177,7 @@ public class GameManager : MonoBehaviour
       impulseSource.GenerateImpulse();
     }
     #endregion
+
     #region Ball destroy effect
     public void destroyEffect(Color Ballcolor) { 
        GameObject destroyEffect = Instantiate(DestroyEffect, BallLastPos, Quaternion.identity);
@@ -185,6 +186,17 @@ public class GameManager : MonoBehaviour
         destroyEffect.GetComponent<ParticleSystem>().Play();
     }
 
+    #endregion
+
+    #region Ball Bounce Effect
+
+    public void BallBounceEffect(Color Ballcolor, Vector2 hitPoint)
+    {
+        GameObject bounceEffect = Instantiate(Bounceffect, hitPoint, Quaternion.identity);
+        var main = bounceEffect.GetComponent<ParticleSystem>().main;
+        main.startColor = Ballcolor;
+        bounceEffect.GetComponent<ParticleSystem>().Play();
+    }
     #endregion
 
 }
