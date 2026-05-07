@@ -169,3 +169,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c167b1f343ef9344a8988d0dbb94f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ball
+  Bounceffect: {fileID: 131157023232776662, guid: 9b70750a08d31674cbbdf5ae78637c44, type: 3}

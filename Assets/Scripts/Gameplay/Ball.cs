@@ -7,10 +7,11 @@ public class Ball : MonoBehaviour
     GameManager gameManager;
     DifficultyManager difficultyManager;
     private int Score;
-    AudioSource BallTapSFX;
-    [HideInInspector]
+    
+   [HideInInspector]
     int TwoXBallSpawnDelay = 50;
     float BallLifeSpan = 5f;
+    
     
 
 
@@ -18,34 +19,58 @@ public class Ball : MonoBehaviour
     {
         gameManager = FindAnyObjectByType<GameManager>();
         difficultyManager = FindAnyObjectByType<DifficultyManager>();
-        BallTapSFX = GameObject.Find("Ball Tap SFX").GetComponent<AudioSource>();
         Score = gameManager.score;
         StartCoroutine(BallLifeSpanCoroutine());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (BallTapSFX != null)
+        Vector2 hitPoint = collision.GetContact(0).point;
+
+        ParticleSystem bounceParticleSystem = Instantiate(gameManager.Bounceffect, hitPoint, Quaternion.identity).GetComponent<ParticleSystem>();
+
+        var main = bounceParticleSystem.main;
+
+        main.startColor =
+            GetComponent<SpriteRenderer>().color;
+
+        bounceParticleSystem.Play();
+        AudioManager.Instance.BallBounceSFX();
+
+    }
+
+    private void Update()
+    {
+        if (Input.touchCount > 0)
         {
-            BallTapSFX.Play();
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                Vector2 worldPos =
+                    Camera.main.ScreenToWorldPoint(touch.position);
+
+                Collider2D hit =
+                    Physics2D.OverlapPoint(worldPos);
+
+                if (hit != null && hit.gameObject == gameObject)
+                {
+                    gameManager.BallLastPos = transform.position;
+                    DestroyTheBall();
+                }
+            }
         }
-
     }
 
-    private void OnMouseDown()
+    public void DestroyTheBall()
     {
-        gameManager.BallLastPos = gameObject.transform.position;
-        Destroytheball();
-    }
-
-    public void Destroytheball() // Destroy ball 
-    {
-
-
         LevelSelect();
-        gameManager.CoinReward();
-        Destroy(gameObject);
 
+        gameManager.ScoreSystem();
+        Color BallColor = gameObject.GetComponent<SpriteRenderer>().color;
+        gameManager.destroyEffect(BallColor);
+        AudioManager.Instance.BallDestroySFX();
+        Destroy(gameObject);
     }
 
     private void LevelSelect()
@@ -147,16 +172,6 @@ public class Ball : MonoBehaviour
         {
             difficultyManager.LevelNine(); // continuing 5 ball
         }
-
-
-
-
-
-
-
-
-
-
     }
 
     private void TwoXBallSpawn()
@@ -182,8 +197,9 @@ public class Ball : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        AudioManager.Instance.BallDestroySFX();
         Destroy(gameObject);
+        
         if (gameManager.Health > 0)
         {
             gameManager.HealthSystem();
@@ -197,10 +213,12 @@ public class Ball : MonoBehaviour
         else
         {
             // If health was already zero or below, ensure game over runs
-            gameManager.GameOver();
+            gameManager.Revive();
         }
         LevelSelect();
     }
+
+  
 
 }
 

@@ -20,7 +20,7 @@ public class MissedTap : MonoBehaviour
             // If health reached zero after decrement, trigger game over immediately
             if (GameManager.Health <= 0)
             {
-                GameManager.GameOver();
+                GameManager.Revive();
             }
         }
         else
