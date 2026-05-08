@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: dfc9e9405c3344841ae2c1b2a62d9268
+guid: e6abae5a90f771b48b8a7a70bf4d1353
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4000339587604449708
-    second: Revive Window_0
+      213: -7002104055814440117
+    second: Yellow Button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Revive Window_0
+      name: Yellow Button_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 524
-        height: 526
+        width: 343
+        height: 145
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 45677ebf650fb78c0800000000000000
-      internalID: -4000339587604449708
+      spriteID: b4bbbd0c57783de90800000000000000
+      internalID: -7002104055814440117
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Revive Window_0: -4000339587604449708
+      Yellow Button_0: -7002104055814440117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
