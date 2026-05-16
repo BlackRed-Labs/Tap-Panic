@@ -12,7 +12,7 @@ public class ReviveManager : MonoBehaviour
 
     private void OnEnable()
     {
-       VisualElement root  =GetComponent<UIDocument>().rootVisualElement;
+       VisualElement root  = GetComponent<UIDocument>().rootVisualElement;
         root.Q<Button>("CloseButton").clicked+=Closebutton;
         root.Q<Button>("ReviveButton").clicked += ReviveButton;
         PriceText = root.Q<Label>("Price");
@@ -21,8 +21,21 @@ public class ReviveManager : MonoBehaviour
 
     private void Closebutton() 
     {
-        gameObject.SetActive(false);
-        GameManager.GameOver();
+        //Best Time Logic
+        float SurvivedTime = PlayerPrefs.GetFloat("SurvivalTime", 0f);
+        float BestTime = PlayerPrefs.GetFloat("BestTime", 0f);
+
+        if (SurvivedTime > BestTime)
+        {
+            PlayerPrefs.SetFloat("BestTime", SurvivedTime);
+            gameObject.SetActive(false);
+            GameManager.Instance.newBestWindow.SetActive(true);
+        }
+        else
+        {
+            GameManager.GameOver();
+        }
+
     }
 
     private void ReviveButton() { 

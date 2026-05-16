@@ -38,7 +38,13 @@ public class Ball : MonoBehaviour
 
     }
 
-    private void Update()
+    private void OnMouseDown()
+    {
+        gameManager.BallLastPos = transform.position;
+        DestroyTheBall();
+    }
+
+    /*private void Update()
     {
         if (Input.touchCount > 0)
         {
@@ -59,12 +65,11 @@ public class Ball : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     public void DestroyTheBall()
     {
         LevelSelect();
-
         gameManager.ScoreSystem();
         Color BallColor = gameObject.GetComponent<SpriteRenderer>().color;
         gameManager.destroyEffect(BallColor);
@@ -173,14 +178,6 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void TwoXBallSpawn()
-    {
-        if (Score.Equals(TwoXBallSpawnDelay))
-        {
-            difficultyManager.TwoXBall();
-            TwoXBallSpawnDelay += 80;
-        }
-    }
 
     IEnumerator BallLifeSpanCoroutine()
     {
@@ -190,8 +187,8 @@ public class Ball : MonoBehaviour
         {
             float t = elapsed / BallLifeSpan;
 
-            // Smooth transition from green → red
-            gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Color.red, t);
+            // Smooth transition from white → dark red
+            gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.darkRed, t);
 
             elapsed += Time.deltaTime;
             yield return null;

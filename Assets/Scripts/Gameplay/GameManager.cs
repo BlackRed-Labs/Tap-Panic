@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public GameObject ballPrefab;
     GameObject Spawnedball;
     public float Ballforce;
@@ -36,10 +37,16 @@ public class GameManager : MonoBehaviour
     public ReviveManager reviveManager;
     public GameObject Bounceffect;
     public GameObject DestroyEffect;
+    public GameObject MouseclickEffectPrefab;
+    public GameObject HowToPlayWindow;
+    public GameObject CountDownText;
+    public AudioSource ScreenshakeSFX;
+    public GameObject newBestWindow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        Instance = this;
         QualitySettings.vSyncCount = 0; // disable VSync
         Application.targetFrameRate = 100;
         impulseSource = GetComponent<CinemachineImpulseSource>();
@@ -47,17 +54,85 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        if (PlayerPrefs.GetString("IsHowToPlayShown", "No") == "No")
+        {
+            if (HowToPlayWindow != null)
+            {
+                HowToPlayWindow.SetActive(true);
+            }
+
+            PlayerPrefs.SetString("IsHowToPlayShown", "Yes");
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            CountDownText.SetActive(true);
+            CountdownTimer.Instance.UpdateCountDown(3);
+        }
+    }
+   
+    #region Start Game
+
+    public void StartGame()
+    {
+
+        BGM.Play();
+        MissedTap.SetActive(true);
         difficultyManager.LevelOne();
         difficultyManager.LevelOne();
+    }
+    #endregion
+
+    #region Survival time and Mouse input effect
+
+    [HideInInspector]
+    public bool isGameStarted = false;
+    private void Update()
+    {
+        if (!isAlive) return;
+
+        survivalTime += Time.deltaTime;
+
+        if(isGameStarted == true)
+        {
+            //formatted internally
+            UIManager.AddSurvivalTime(survivalTime);
+            
+        }
+
+
+        #region Mouse click effect
+        if (Input.GetMouseButtonDown(0))
+        { 
+            SpawnEffect(Input.mousePosition);
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            SpawnEffect(Input.GetTouch(0).position);
+        }
+    }
+    
+    void SpawnEffect(Vector3 screenPos)
+    {
+    
+        screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        worldPos.z = 0f;
+
+        GameObject effect = Instantiate(MouseclickEffectPrefab, worldPos, Quaternion.identity);
 
     }
+    #endregion
+
+    #endregion
 
     #region Spawn ball
 
     public GameObject SpawnBall()
     {
-        Spawnedball = Instantiate(ballPrefab, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 3f)), Quaternion.identity);
+        Spawnedball = Instantiate(ballPrefab, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 2f)), Quaternion.identity);
         return Spawnedball;
 
     }
@@ -101,6 +176,7 @@ public class GameManager : MonoBehaviour
     {
         Health--;
         cameraShake();
+        Handheld.Vibrate();
         UIManager.RemoveLife(4-Health);
     }
     #endregion
@@ -156,25 +232,13 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Survivl Timer
-
-    void Update()
-    {
-        if (!isAlive) return;
-
-        survivalTime += Time.deltaTime;
-
-        //formatted internally
-        UIManager.AddSurvivalTime(survivalTime);
-
-        
-    }
-    #endregion
-
     #region camera shake
     public void cameraShake() 
     { 
       impulseSource.GenerateImpulse();
+      BGM.Pause();
+        ScreenshakeSFX.PlayOneShot(ScreenshakeSFX.clip);
+        BGM.UnPause();
     }
     #endregion
 
@@ -198,6 +262,7 @@ public class GameManager : MonoBehaviour
         bounceEffect.GetComponent<ParticleSystem>().Play();
     }
     #endregion
+
 
 }
 

@@ -17,8 +17,8 @@ public class GameOverManager : MonoBehaviour
         SurvivalTimeText = root.Q<Label>("SurvivalTimeText");
         CoinCount = root.Q<Label>("CoinCount");
         BestTime = root.Q<Label>("BestTime");
-        root.Q<Button>("RetryButton").clicked += RetryButton;
-        root.Q<Button>("MainMenu").clicked += MainMenuButton;
+        root.Q<Button>("PlayAgain").clicked += PlayAgain;
+        
 
         SurvivalTime();
         CoinsCount();
@@ -64,8 +64,8 @@ public class GameOverManager : MonoBehaviour
     }
     #endregion
     
-    #region Retry Button
-    private void RetryButton() { 
+    #region Play again
+    private void PlayAgain() { 
      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
      MissedTap.SetActive(true);
      Time.timeScale = 1f; 
