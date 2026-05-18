@@ -9,6 +9,7 @@ TagManager:
   - GPA
   - Tap Missed
   - Ball Destroy SFX
+  - BestTimeWindow
   layers:
   - Default
   - TransparentFX

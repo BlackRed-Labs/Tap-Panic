@@ -10,6 +10,7 @@ public class GameOverManager : MonoBehaviour
     public AudioSource CoincollectSFX;
     public GameObject MissedTap;
     private Label BestTime;
+    public CoinManager CoinManager;
 
     private void OnEnable()
     {
@@ -18,6 +19,7 @@ public class GameOverManager : MonoBehaviour
         CoinCount = root.Q<Label>("CoinCount");
         BestTime = root.Q<Label>("BestTime");
         root.Q<Button>("PlayAgain").clicked += PlayAgain;
+        
         
 
         SurvivalTime();
@@ -36,8 +38,8 @@ public class GameOverManager : MonoBehaviour
     #region coincount
     private void CoinsCount() { 
         int coins = PlayerPrefs.GetInt("Score", 0);
-
         StartCoroutine(AnimateCoins(coins));
+        CoinManager.AddCoinsToTotal(coins);
     }
 
     IEnumerator AnimateCoins(int targetCoins)
@@ -50,10 +52,11 @@ public class GameOverManager : MonoBehaviour
             CoincollectSFX.PlayOneShot(CoincollectSFX.clip);
             yield return null;
         }
+
     }
     #endregion
 
-    #region Total Time
+    #region survived Time
     private void SurvivalTime() {
         float savedTime = PlayerPrefs.GetFloat("SurvivalTime", 0f);
 
@@ -66,6 +69,7 @@ public class GameOverManager : MonoBehaviour
     
     #region Play again
     private void PlayAgain() { 
+
      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
      MissedTap.SetActive(true);
      Time.timeScale = 1f; 

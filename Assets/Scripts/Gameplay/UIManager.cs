@@ -11,14 +11,19 @@ public class UIManager : MonoBehaviour
     private Image[] Hearts;
     private VisualElement HeartsParent;
     List<VisualElement> hearts = new List<VisualElement>();
+    public Label TotalCoins;
 
     void OnEnable()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         scoreLabel = root.Q<Label>("ScoreText");
         SurvivedTime = root.Q<Label>("SurvivalTime");
+       
+        //Load Total coins
+        TotalCoins = root.Q<Label>("TotalCoins");
+        LoadTheSavedCoin();
+
         HeartsParent = root.Q<GroupBox>("Hearts");
-        
         hearts.Add(HeartsParent.Q<Image>("Heart1"));
         hearts.Add(HeartsParent.Q<Image>("Heart2"));
         hearts.Add(HeartsParent.Q<Image>("Heart3"));
@@ -48,6 +53,11 @@ public class UIManager : MonoBehaviour
 
         SurvivedTime.text = minutes.ToString("00") + ":" + seconds.ToString("00");
        
+    }
+
+    public void LoadTheSavedCoin() {
+       int totalCoins = PlayerPrefs.GetInt("TotalCoins", 500);
+        TotalCoins.text = totalCoins.ToString();
     }
 
 }

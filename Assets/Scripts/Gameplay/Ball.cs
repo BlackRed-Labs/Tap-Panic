@@ -11,16 +11,28 @@ public class Ball : MonoBehaviour
    [HideInInspector]
     int TwoXBallSpawnDelay = 50;
     float BallLifeSpan = 5f;
-    
-    
+    float SurvivedTime;
+    float BestTime;
+    GameObject NewBestWindow;
+
+
 
 
     private void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
         difficultyManager = FindAnyObjectByType<DifficultyManager>();
+        NewBestWindow = gameManager.BestTime;
         Score = gameManager.score;
         StartCoroutine(BallLifeSpanCoroutine());
+
+
+        // high score
+        SurvivedTime = GameManager.Instance.survivalTime;
+        PlayerPrefs.SetFloat("SurvivalTime", SurvivedTime);
+
+        SurvivedTime = PlayerPrefs.GetFloat("SurvivalTime", 0f);
+        BestTime = PlayerPrefs.GetFloat("BestTime", 0f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,29 +55,6 @@ public class Ball : MonoBehaviour
         gameManager.BallLastPos = transform.position;
         DestroyTheBall();
     }
-
-    /*private void Update()
-    {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
-            {
-                Vector2 worldPos =
-                    Camera.main.ScreenToWorldPoint(touch.position);
-
-                Collider2D hit =
-                    Physics2D.OverlapPoint(worldPos);
-
-                if (hit != null && hit.gameObject == gameObject)
-                {
-                    gameManager.BallLastPos = transform.position;
-                    DestroyTheBall();
-                }
-            }
-        }
-    }*/
 
     public void DestroyTheBall()
     {
@@ -203,7 +192,17 @@ public class Ball : MonoBehaviour
             // If health reached zero after decrement, trigger game over immediately
             if (gameManager.Health <= 0)
             {
-                gameManager.GameOver();
+                if (SurvivedTime >= BestTime)
+                {
+                    PlayerPrefs.SetFloat("BestTime", SurvivedTime);
+
+                    if (NewBestWindow != null)
+                        NewBestWindow.SetActive(true);
+                }
+                else
+                {
+                    gameManager.GameOver();
+                }
             }
         }
         else

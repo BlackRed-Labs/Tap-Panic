@@ -20,10 +20,6 @@ public class MissedTap : MonoBehaviour
                 GameManager.Revive();
             }
         }
-        else
-        {
-            // If health was already zero or below, ensure game over runs
-            GameManager.GameOver();
-        }
+        
     }
 }

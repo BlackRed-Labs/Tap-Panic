@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private GameObject ReviveWindow;
     [SerializeField]
     private AudioSource BGM;
-    float survivalTime = 0f;
+    public float survivalTime;
     bool isAlive = true;
     private CinemachineImpulseSource impulseSource;
     public CinemachineCamera vcam;
@@ -41,19 +41,22 @@ public class GameManager : MonoBehaviour
     public GameObject HowToPlayWindow;
     public GameObject CountDownText;
     public AudioSource ScreenshakeSFX;
-    public GameObject newBestWindow;
+    public GameObject BestTime;
+    public PauseMenu pauseMenu;
+    bool isPauseMenuActive = false;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         Instance = this;
-        QualitySettings.vSyncCount = 0; // disable VSync
-        Application.targetFrameRate = 100;
+        Application.targetFrameRate = 200;
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void Start()
     {
+
         if (PlayerPrefs.GetString("IsHowToPlayShown", "No") == "No")
         {
             if (HowToPlayWindow != null)
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
     }
    
     #region Start Game
-
+     
     public void StartGame()
     {
 
@@ -83,12 +86,36 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Survival time and Mouse input effect
+    #region Survival time , Mouse input effect , Pause Menu  activate/deactivate
 
     [HideInInspector]
     public bool isGameStarted = false;
+
     private void Update()
     {
+        #region Pause menu Active/disable
+        // ESC key
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isPauseMenuActive && Time.timeScale>0)
+            {
+                pauseMenu.PauseGame();
+                isPauseMenuActive=true;
+                MissedTap.SetActive(false);
+            }
+
+            else if (isPauseMenuActive && Time.timeScale<1) { 
+            
+              pauseMenu.ResumeGame();
+                isPauseMenuActive=false;
+                MissedTap.SetActive(true);
+            }
+            
+           
+        }
+        #endregion
+
+        #region Survive Time update
         if (!isAlive) return;
 
         survivalTime += Time.deltaTime;
@@ -99,7 +126,7 @@ public class GameManager : MonoBehaviour
             UIManager.AddSurvivalTime(survivalTime);
             
         }
-
+        #endregion
 
         #region Mouse click effect
         if (Input.GetMouseButtonDown(0))
@@ -122,9 +149,8 @@ public class GameManager : MonoBehaviour
         worldPos.z = 0f;
 
         GameObject effect = Instantiate(MouseclickEffectPrefab, worldPos, Quaternion.identity);
-
+        #endregion
     }
-    #endregion
 
     #endregion
 
@@ -195,7 +221,6 @@ public class GameManager : MonoBehaviour
         }
         MissedTap.SetActive(false);
         Time.timeScale = 0f;
-         PlayerPrefs.SetFloat("SurvivalTime", survivalTime);
 
         //Best Time Logic
         float SurvivedTime = PlayerPrefs.GetFloat("SurvivalTime", 0f);
