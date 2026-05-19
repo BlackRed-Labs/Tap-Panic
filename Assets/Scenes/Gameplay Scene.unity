@@ -2495,7 +2495,6 @@ MonoBehaviour:
   NewBestWindow: {fileID: 274643722}
   CoinManager: {fileID: 207831941}
   countdownTimer: {fileID: 881240058}
-  ReviveSFX: {fileID: 899980800}
 --- !u!1 &1115525716
 GameObject:
   m_ObjectHideFlags: 0

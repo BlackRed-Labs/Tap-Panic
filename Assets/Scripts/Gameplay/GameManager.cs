@@ -130,13 +130,19 @@ public class GameManager : MonoBehaviour
 
         #region Mouse click effect
         if (Input.GetMouseButtonDown(0))
-        { 
-            SpawnEffect(Input.mousePosition);
+        {
+            if (Time.timeScale > 0)
+            {
+                SpawnEffect(Input.mousePosition);
+            }
         }
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            SpawnEffect(Input.GetTouch(0).position);
+            if (Time.timeScale > 0)
+            {
+                SpawnEffect(Input.GetTouch(0).position);
+            }
         }
     }
     

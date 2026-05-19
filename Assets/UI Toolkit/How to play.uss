@@ -1,0 +1,49 @@
+:root {
+}
+
+.Got-it {
+    position: absolute;
+    top: 922px;
+    left: 237px;
+    width: 400px;
+    height: 150px;
+    font-size: 63px;
+    -unity-font-style: bold;
+    -unity-font-definition: resource("FlatSkin/Font/Roboto-Bold");
+    border-top-width: 15px;
+    border-right-width: 15px;
+    border-bottom-width: 15px;
+    border-left-width: 15px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: rgb(169, 255, 112);
+    border-left-color: rgb(94, 188, 31);
+    border-right-color: rgb(94, 188, 31);
+    border-top-color: rgb(94, 188, 31);
+    border-bottom-color: rgb(94, 188, 31);
+    color: rgb(16, 34, 5);
+    transition-duration: 0.6s;
+    transition-timing-function: ease-out-elastic;
+}
+
+.Got-it:hover {
+    scale: 1.1 1.1;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in-out-elastic;
+}
+
+.Got-it:active {
+    background-color: rgb(41, 41, 41);
+}
+
+
+
+
+
+.MyToggle:hover {
+    scale: 1.1 1.1;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in-out-elastic;
+}

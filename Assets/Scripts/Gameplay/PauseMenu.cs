@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     public AudioSource BGM;
     public AudioSource PauseSFX;
     public GameManager gameManager;
+    Toggle ToggleButton;
 
     private void OnEnable()
     {
@@ -35,6 +36,29 @@ public class PauseMenu : MonoBehaviour
         Label Hearts = root.Q<Label>("Hearts");
         int currentHealthCount = gameManager.Health;
         Hearts.text = currentHealthCount.ToString();
+
+        //Get the Toggle button reference
+        ToggleButton = root.Q<Toggle>("MyToggle");
+
+        if (ToggleButton != null)
+        {
+            // --- THE FIX ---
+            // Set the toggle's visual state to match whether the music is currently playing
+            ToggleButton.value = BGM.isPlaying;
+
+            // Register the callback for player clicks
+            ToggleButton.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue)
+                {
+                    BGM.Play();      // ON
+                }
+                else
+                {
+                    BGM.Stop();      // OFF
+                }
+            });
+        }
     }
 
     void GoToHome() 
@@ -73,7 +97,7 @@ public class PauseMenu : MonoBehaviour
     {
              Time.timeScale = 0f;
              gameObject.SetActive(true);
-             BGM.Pause();
+             
         PauseSFX.PlayOneShot(PauseSFX.clip);
      GameObject[] Balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (GameObject ball in Balls) { 
@@ -92,7 +116,7 @@ public class PauseMenu : MonoBehaviour
             gameObject.SetActive(false);
         Time.timeScale = 1f;
         PauseSFX.PlayOneShot(PauseSFX.clip);
-        BGM.UnPause();
+       
     }
 }
 

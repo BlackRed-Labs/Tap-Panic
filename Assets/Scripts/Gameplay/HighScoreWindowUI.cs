@@ -13,10 +13,19 @@ public class HighScoreWindowUI : MonoBehaviour
 
     int TwoXcount = 0;
     Button twoXbutton;
-
+    GameObject[] Balls;
 
     private void OnEnable()
     {
+        Balls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (GameObject ball in Balls)
+        {
+            if (ball != null)
+            {
+                ball.SetActive(false);
+            }
+        }
+
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         Label HighscoreText = root.Q<Label>("NewBestTime");
 

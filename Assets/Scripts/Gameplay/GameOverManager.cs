@@ -14,6 +14,7 @@ public class GameOverManager : MonoBehaviour
 
     private void OnEnable()
     {
+
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         SurvivalTimeText = root.Q<Label>("SurvivalTimeText");
         CoinCount = root.Q<Label>("CoinCount");
