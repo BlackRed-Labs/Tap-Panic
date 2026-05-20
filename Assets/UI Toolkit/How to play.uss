@@ -1,4 +1,5 @@
 :root {
+    -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
 }
 
 .Got-it {
@@ -9,7 +10,7 @@
     height: 150px;
     font-size: 63px;
     -unity-font-style: bold;
-    -unity-font-definition: resource("FlatSkin/Font/Roboto-Bold");
+    -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
     border-top-width: 15px;
     border-right-width: 15px;
     border-bottom-width: 15px;
@@ -32,18 +33,12 @@
     scale: 1.1 1.1;
     transition-duration: 0.6s;
     transition-timing-function: ease-in-out-elastic;
+    -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
 }
 
 .Got-it:active {
     background-color: rgb(41, 41, 41);
+    -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
 }
 
 
-
-
-
-.MyToggle:hover {
-    scale: 1.1 1.1;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out-elastic;
-}
