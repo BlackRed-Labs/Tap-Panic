@@ -8,8 +8,7 @@ public class Ball : MonoBehaviour
     DifficultyManager difficultyManager;
     private int Score;
     
-   [HideInInspector]
-    int TwoXBallSpawnDelay = 50;
+   
     float BallLifeSpan = 5f;
     float SurvivedTime;
     float BestTime;

@@ -12,15 +12,27 @@ public class GameOverManager : MonoBehaviour
     private Label BestTime;
     public CoinManager CoinManager;
 
+    //2X button variable
+    Button _TwoXButton;
+    int twoXButtonpressedCount = 0;
+
+    //Score variable
+    int coins;
+
     private void OnEnable()
     {
+        //getting score 
+        coins = PlayerPrefs.GetInt("Score", 0);
 
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         SurvivalTimeText = root.Q<Label>("SurvivalTimeText");
         CoinCount = root.Q<Label>("CoinCount");
         BestTime = root.Q<Label>("BestTime");
         root.Q<Button>("PlayAgain").clicked += PlayAgain;
-        
+
+        //2X button
+        _TwoXButton = root.Q<Button>("TwoXButton");
+        _TwoXButton.clicked += TwoXbutton;
         
 
         SurvivalTime();
@@ -38,7 +50,7 @@ public class GameOverManager : MonoBehaviour
 
     #region coincount
     private void CoinsCount() { 
-        int coins = PlayerPrefs.GetInt("Score", 0);
+        
         StartCoroutine(AnimateCoins(coins));
         CoinManager.AddCoinsToTotal(coins);
     }
@@ -75,6 +87,24 @@ public class GameOverManager : MonoBehaviour
      MissedTap.SetActive(true);
      Time.timeScale = 1f; 
     }
+    #endregion
+
+    #region
+    private void TwoXbutton() 
+    {
+        twoXButtonpressedCount++;
+        coins = coins*2;
+        StartCoroutine(AnimateCoins(coins));
+        CoinManager.AddCoinsToTotal(coins);
+       
+        if (twoXButtonpressedCount >= 2)
+        {
+            _TwoXButton.SetEnabled(false);
+        }
+
+    }
+
+
     #endregion
 
     #region mainmenu button

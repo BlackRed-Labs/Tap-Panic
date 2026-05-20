@@ -26,6 +26,8 @@ public class HighScoreWindowUI : MonoBehaviour
             }
         }
 
+
+
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         Label HighscoreText = root.Q<Label>("NewBestTime");
 
@@ -52,6 +54,7 @@ public class HighScoreWindowUI : MonoBehaviour
 
 
     }
+
 
     //timer count animation
    private IEnumerator CountAnimation(float targetTime, Label text)

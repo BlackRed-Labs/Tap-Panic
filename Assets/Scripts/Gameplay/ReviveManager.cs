@@ -37,11 +37,18 @@ public class ReviveManager : MonoBehaviour
 
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        // Buttons
+        // Close window Button
         root.Q<Button>("CloseButton").clicked += Closebutton;
-
+          
+        //Revive Button
         Button reviveButton = root.Q<Button>("Revivebutton");
         reviveButton.clicked += ReviveButton;
+
+        //WatchAds Button
+        Button _WatchAdButton = root.Q<Button>("WatchAdButton");
+        _WatchAdButton.clicked += WatchAdButton;
+        
+
 
         GroupBox priceBox = root.Q<GroupBox>("PriceGroup");
 
@@ -134,6 +141,12 @@ public class ReviveManager : MonoBehaviour
         BGM.pitch = 1f;
 
         GameManager.MissedTap.SetActive(true);
+    }
+
+    void WatchAdButton() { 
+    
+     ReviveButton();
+    
     }
 
     private void OnDisable()

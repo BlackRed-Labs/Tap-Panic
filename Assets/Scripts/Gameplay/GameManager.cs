@@ -208,7 +208,6 @@ public class GameManager : MonoBehaviour
     {
         Health--;
         cameraShake();
-        Handheld.Vibrate();
         UIManager.RemoveLife(4-Health);
     }
     #endregion

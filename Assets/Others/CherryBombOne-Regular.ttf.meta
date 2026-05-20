@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e11a2b6948ad56e468329fd287a7ebc5
+guid: 26fc65f07ceb22c4985aa5c4e32f4fd1
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Game Bubble
+  - Cherry Bomb One
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
