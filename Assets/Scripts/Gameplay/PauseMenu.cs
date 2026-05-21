@@ -37,28 +37,8 @@ public class PauseMenu : MonoBehaviour
         int currentHealthCount = gameManager.Health;
         Hearts.text = currentHealthCount.ToString();
 
-        //Get the Toggle button reference
-        ToggleButton = root.Q<Toggle>("MyToggle");
-
-        if (ToggleButton != null)
-        {
-            // --- THE FIX ---
-            // Set the toggle's visual state to match whether the music is currently playing
-            ToggleButton.value = BGM.isPlaying;
-
-            // Register the callback for player clicks
-            ToggleButton.RegisterValueChangedCallback(evt =>
-            {
-                if (evt.newValue)
-                {
-                    BGM.Play();      // ON
-                }
-                else
-                {
-                    BGM.Stop();      // OFF
-                }
-            });
-        }
+        
+        
     }
 
     void GoToHome() 

@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region Ball Bounce Effect
+   /* #region Ball Bounce Effect
 
     public void BallBounceEffect(Color Ballcolor, Vector2 hitPoint)
     {
@@ -291,7 +291,7 @@ public class GameManager : MonoBehaviour
         main.startColor = Ballcolor;
         bounceEffect.GetComponent<ParticleSystem>().Play();
     }
-    #endregion
+    #endregion*/
 
 
 }

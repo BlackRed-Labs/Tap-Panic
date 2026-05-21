@@ -39,7 +39,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -142,13 +142,13 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
+    resizeAlgorithm: 1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -159,8 +159,162 @@ TextureImporter:
       name: New Gameplay UI assets_0
       rect:
         serializedVersion: 2
-        x: 57
+        x: 58
         y: 1776
+        width: 256
+        height: 257
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c41ad61e26f0124c95e5e202bf56ca2
+      internalID: 117741996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_1
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 1830
+        width: 512
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d4a87a5281adb144ae101fa4bc121cc
+      internalID: -1112645860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_2
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 1512
+        width: 966
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 987ae029b8869c1439a4c13b5b7b7174
+      internalID: -2121199749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_3
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 1508
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dacc52269df0e2a49ab1ec7d6fd09f8f
+      internalID: -9154181020724422935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_4
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 1508
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d658ba44ad570fd42b7bcd1405bd0ce6
+      internalID: -6121766692754518253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_5
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 1508
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d2e6e82d70b32a49999a512d2f52484
+      internalID: 6025021758688119304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_6
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 324
+        width: 512
+        height: 1032
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27c4819c70376e34ca2077f7a987d16f
+      internalID: 60666210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: New Gameplay UI assets_7
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 1114
         width: 258
         height: 257
       alignment: 0
@@ -171,161 +325,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e54957535078f8489e1e879e5b2f5f5
-      internalID: 117741996
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_1
-      rect:
-        serializedVersion: 2
-        x: 421
-        y: 1832
-        width: 516
-        height: 132
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 39103d51ef78b4a4caebb2bbec612b2d
-      internalID: -1112645860
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_2
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 1512
-        width: 968
-        height: 208
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 10119d3ce67ce4b4ebbfcfb8235a5428
-      internalID: -2121199749
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_3
-      rect:
-        serializedVersion: 2
-        x: 467
-        y: 1506
-        width: 20
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eceb37094baaa624d9dfa8818e6429eb
-      internalID: -9154181020724422935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_4
-      rect:
-        serializedVersion: 2
-        x: 489
-        y: 1506
-        width: 20
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0d656790947ef24cb2b067af88491d0
-      internalID: -6121766692754518253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_5
-      rect:
-        serializedVersion: 2
-        x: 513
-        y: 1506
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 057ba5f307d6e544c9cd619eb86176d6
-      internalID: 6025021758688119304
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_6
-      rect:
-        serializedVersion: 2
-        x: 117
-        y: 325
-        width: 516
-        height: 1028
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 86b599d05a47c0643808ceddf1022895
-      internalID: 60666210
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Gameplay UI assets_7
-      rect:
-        serializedVersion: 2
-        x: 809
-        y: 1113
-        width: 260
-        height: 259
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a668c95a1e68fab4a89fa48d6b266b40
+      spriteID: f7142ef0f40f3294aae6911991c8119d
       internalID: 1621434195
       vertices: []
       indices: 
@@ -335,10 +335,10 @@ TextureImporter:
       name: New Gameplay UI assets_8
       rect:
         serializedVersion: 2
-        x: 825
-        y: 815
+        x: 826
+        y: 816
         width: 260
-        height: 259
+        height: 258
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -347,7 +347,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ba345afdf2b8a245806113839f5c409
+      spriteID: 0d862fe12faa3dc47922f6c5625dd241
       internalID: 452995734
       vertices: []
       indices: 
@@ -357,9 +357,9 @@ TextureImporter:
       name: New Gameplay UI assets_9
       rect:
         serializedVersion: 2
-        x: 823
-        y: 525
-        width: 260
+        x: 824
+        y: 528
+        width: 257
         height: 234
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -369,8 +369,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 511e7f2903539f84ebb952556d77c8ce
-      internalID: 2071330017
+      spriteID: 78b9d6dab7db9b249842f617c4d86934
+      internalID: 1302843596
       vertices: []
       indices: 
       edges: []
@@ -379,10 +379,10 @@ TextureImporter:
       name: New Gameplay UI assets_10
       rect:
         serializedVersion: 2
-        x: 715
-        y: 83
-        width: 513
-        height: 346
+        x: 689
+        y: 84
+        width: 539
+        height: 367
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -391,8 +391,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 727b01e867edec148a2f4976faf749a2
-      internalID: 1277702562
+      spriteID: 8d6a21f826a5893478971ba6cb8d8340
+      internalID: 1510126332
       vertices: []
       indices: 
       edges: []
@@ -417,7 +417,7 @@ TextureImporter:
     nameFileIdTable:
       New Gameplay UI assets_0: 117741996
       New Gameplay UI assets_1: -1112645860
-      New Gameplay UI assets_10: 1277702562
+      New Gameplay UI assets_10: 1510126332
       New Gameplay UI assets_2: -2121199749
       New Gameplay UI assets_3: -9154181020724422935
       New Gameplay UI assets_4: -6121766692754518253
@@ -425,7 +425,7 @@ TextureImporter:
       New Gameplay UI assets_6: 60666210
       New Gameplay UI assets_7: 1621434195
       New Gameplay UI assets_8: 452995734
-      New Gameplay UI assets_9: 2071330017
+      New Gameplay UI assets_9: 1302843596
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

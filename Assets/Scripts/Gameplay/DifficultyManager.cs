@@ -1,414 +1,158 @@
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class DifficultyManager : MonoBehaviour
 {
-   
-    public  GameManager gameManager;
-    private GameObject SpawnedBall;
-    Rigidbody2D Ballrb;
-    public float BallForce = 10f;
+    [Header("References")]
+    public GameManager gameManager;
+
+    [Header("Ball settings")]
+    public float BallForce = 3f;
     public float CurrectScaleOfBall = 1.5f;
-    public GameObject _BombPreFab;
-    public GameObject _2XBallPrefab;
-    public GameObject _HeartBall;
-    [HideInInspector]
-    public bool isBombSpawned = false;
-    public int BombDelayTime;
-    public bool is2BallSpawned = false;  
-    public bool is3BallSpawned = false;
-    public bool is4BallSpawned = false;
-    public bool is5BallSpawned = false;
 
+    [Header("Spawn flags & timing")]
+    [HideInInspector] public bool isBombSpawned = false;
+    [HideInInspector] public bool is2BallSpawned = false;
+    [HideInInspector] public bool is3BallSpawned = false;
+    [HideInInspector] public bool is4BallSpawned = false;
+    [HideInInspector] public bool is5BallSpawned = false;
 
-    public void BombBallSpawn()
+    // Utility: spawn a prefab via GameManager (keeps spawn logic centralized)
+    private GameObject SpawnBallFromManager()
     {
-        isBombSpawned=true;
-        GameObject Bomb = Instantiate(_BombPreFab, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 3f)), Quaternion.identity);
-        Bomb.transform.localScale = Vector3.one *CurrectScaleOfBall;
-        Rigidbody2D BombRB = Bomb.GetComponent<Rigidbody2D>();
-        int randomnumber = UnityEngine.Random.Range(-2, 1);
-
-        //Debug.Log(randomnumber);
-        if (randomnumber <= 0)
-        {
-            BombRB.AddForce(new Vector2(-10f, 0), ForceMode2D.Impulse);
-        }
-        else if (randomnumber > 0)
-        {
-            BombRB.AddForce(new Vector2(10f, 0), ForceMode2D.Impulse);
-
-        }
-
-        StartCoroutine(Bombelay(BombDelayTime));
+        return gameManager != null ? gameManager.SpawnBall() : null;
     }
 
-    IEnumerator Bombelay(int Delay)
+    private int RandomDirection()
     {
-        yield return new WaitForSeconds(Delay);
-        isBombSpawned = false;
-
+        // faster and clearer 50/50 direction
+        return Random.value < 0.5f ? -1 : 1;
     }
 
-  
-
-    public void TwoXBall()
+    private void ApplyInitialForce(Rigidbody2D rb, float force)
     {
-        GameObject TwoXBall = Instantiate(_2XBallPrefab, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 3f)), Quaternion.identity);
-        TwoXBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Rigidbody2D BombRB = TwoXBall.GetComponent<Rigidbody2D>();
-        int randomnumber = UnityEngine.Random.Range(-2, 1);
-
-        //Debug.Log(randomnumber);
-        if (randomnumber <= 0)
+        if (rb == null) return;
+        if (gameManager != null && gameManager.isBonusScoreActive)
         {
-            BombRB.AddForce(new Vector2(-10, 0), ForceMode2D.Impulse);
-        }
-        else if (randomnumber > 0)
-        {
-            BombRB.AddForce(new Vector2(10, 0), ForceMode2D.Impulse);
-
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            return;
         }
 
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        int dir = RandomDirection();
+        rb.AddForce(new Vector2(dir * force, 0f), ForceMode2D.Impulse);
     }
 
-    public void HeartBall()
+    private GameObject SpawnAndConfigureBall(float scale, float mass = 1f, float linearDamping = 0.2f)
     {
-        GameObject HeartBall = Instantiate(_HeartBall, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 3f)), Quaternion.identity);
-        HeartBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Rigidbody2D BombRB = HeartBall.GetComponent<Rigidbody2D>();
-        int randomnumber = UnityEngine.Random.Range(-2, 1);
+        var ball = SpawnBallFromManager();
+        if (ball == null) return null;
 
-        //Debug.Log(randomnumber);
-        if (randomnumber <= 0)
-        {
-            BombRB.AddForce(new Vector2(-10, 0), ForceMode2D.Impulse);
-        }
-        else if (randomnumber > 0)
-        {
-            BombRB.AddForce(new Vector2(10, 0), ForceMode2D.Impulse);
+        ball.transform.localScale = Vector3.one * scale;
 
+        var rb = ball.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.mass = mass;
+            rb.linearDamping = linearDamping;
         }
 
+        ApplyInitialForce(rb, BallForce);
+        return ball;
     }
+
+    
 
     #region Levels
 
-    public void LevelOne() //Spawn ball
+    public void LevelOne()
     {
-        gameManager.SpawnBall();
-
+        SpawnBallFromManager();
     }
 
-    public void LevelTwo() // adding Swing to ball
+    public void LevelTwo()
     {
-          
-        SpawnedBall = gameManager.SpawnBall();
-        
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-    }
-    
-    public void LevelThree() //Ball Speed increase
-    {
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.02f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 1f);
-        BallForce += 0.3f;
-        BallForce = Mathf.Clamp(BallForce, 10f, 18f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        var ball = SpawnAndConfigureBall(CurrectScaleOfBall);
+        // If bonus score active, ApplyInitialForce already made body kinematic
     }
 
-    public void LevelFour() //2 ball Spawn
+    public void LevelThree()
     {
-            int Score = gameManager.score;
-             if (Score > 140 && Score <300) 
-             {
-              BallForce += 0.4f;
-              BallForce = Mathf.Clamp(BallForce, 10f, 30f);
-
-             }
-            
-            CurrectScaleOfBall = CurrectScaleOfBall - 0.02f;
-            CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.8f);
-            SpawnedBall = gameManager.SpawnBall();
-            SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-            Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-            Ballrb.mass = 3;
-            Ballrb.linearDamping = 0.5f;
-            if (gameManager.isBonusScoreActive)
-            {
-                Ballrb.bodyType = RigidbodyType2D.Kinematic;
-            }
-
-            else
-            {
-
-                int randomnumber = UnityEngine.Random.Range(-2, 1);
-                //Debug.Log(randomnumber);
-                if (randomnumber <= 0)
-                {
-                    Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-                }
-                else if (randomnumber > 0)
-                {
-                    Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-                }
-            }
-
+        BallForce = Mathf.Clamp(BallForce + 0.1f, 3f, 5f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
-    public void LevelFive() // 3 Ball spawn
+    public void LevelFour()
     {
-        int Score = gameManager.score;
-        if (Score > 300 && Score < 450)
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 140 && score < 300)
         {
-            BallForce += 0.6f;
-            BallForce = Mathf.Clamp(BallForce, 10f, 40f);
-
+            BallForce = Mathf.Clamp(BallForce + 0.25f, 3f, 10f);
         }
 
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.01f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.7f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-        Ballrb.mass = 3.2f;
-        Ballrb.linearDamping = 0.6f;
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.05f, 1f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3f, linearDamping: 0.5f);
     }
 
-    public void LevelSix() // Ball Speed increase
+    public void LevelFive()
     {
-        int Score = gameManager.score;
-        if (Score > 450 && Score < 550)
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 300 && score < 450)
         {
-            BallForce += 0.6f;
-            BallForce = Mathf.Clamp(BallForce, 10f, 50f);
-
+            BallForce = Mathf.Clamp(BallForce + 0.3f, 3f, 13f);
         }
 
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.01f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.65f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-        Ballrb.mass = 3.2f;
-        Ballrb.linearDamping = 0.6f;
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.8f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
     }
 
-    public void LevelSeven() // 4 ball spawn
+    public void LevelSix()
     {
-        int Score = gameManager.score;
-        if (Score > 550 && Score < 700)
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 450 && score < 550)
         {
-            BallForce += 0.6f;
-            BallForce = Mathf.Clamp(BallForce, 10f, 55f);
-
+            BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 50f);
         }
 
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.01f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.6f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-        Ballrb.mass = 3.8f;
-        Ballrb.linearDamping = 0.8f;
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.65f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
     }
 
-    public void LevelEight() // ball Speed increase
+    public void LevelSeven()
     {
-        int Score = gameManager.score;
-        if (Score > 700 && Score < 1000)
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 550 && score < 700)
         {
-            BallForce += 0.6f;
-            BallForce = Mathf.Clamp(BallForce, 10f, 60f);
-
+            BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 55f);
         }
 
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.01f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.6f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-        Ballrb.mass = 3.8f;
-        Ballrb.linearDamping = 0.8f;
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.6f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
     }
 
-    public void LevelNine() // 5 ball spawn
+    public void LevelEight()
     {
-        int Score = gameManager.score;
-        if (Score > 1000 && Score < 2000)
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 700 && score < 1000)
         {
-            BallForce += 0.8f;
-            BallForce = Mathf.Clamp(BallForce, 10f, 65f);
-
+            BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 60f);
         }
 
-        CurrectScaleOfBall = CurrectScaleOfBall - 0.01f;
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall, 0.5f);
-        SpawnedBall = gameManager.SpawnBall();
-        SpawnedBall.transform.localScale = Vector3.one * CurrectScaleOfBall;
-        Ballrb = SpawnedBall.GetComponent<Rigidbody2D>();
-        Ballrb.mass = 4.2f;
-        Ballrb.linearDamping = 1f;
-        if (gameManager.isBonusScoreActive)
-        {
-            Ballrb.bodyType = RigidbodyType2D.Kinematic;
-        }
-
-        else
-        {
-
-            int randomnumber = UnityEngine.Random.Range(-2, 1);
-            //Debug.Log(randomnumber);
-            if (randomnumber <= 0)
-            {
-                Ballrb.AddForce(new Vector2(-BallForce, 0), ForceMode2D.Impulse);
-            }
-            else if (randomnumber > 0)
-            {
-                Ballrb.AddForce(new Vector2(BallForce, 0), ForceMode2D.Impulse);
-
-            }
-        }
-
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.6f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
     }
 
+    public void LevelNine()
+    {
+        int score = gameManager != null ? gameManager.score : 0;
+        if (score > 1000 && score < 2000)
+        {
+            BallForce = Mathf.Clamp(BallForce + 0.8f, 10f, 65f);
+        }
+
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.5f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 4.2f, linearDamping: 1f);
+    }
 
     #endregion
-
-
-
-
-
-
 }

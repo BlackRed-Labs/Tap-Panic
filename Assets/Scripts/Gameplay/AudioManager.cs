@@ -4,17 +4,17 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public AudioSource _BGM;
-    public AudioSource _BallBounceSFX;
-    public AudioSource _BallDestroySFX;
+    [SerializeField] private AudioSource bgm;
+    [SerializeField] private AudioSource ballBounceSFX;
+    [SerializeField] private AudioSource ballDestroySFX;
 
     private void Awake()
     {
+        // Singleton: keep first instance, destroy duplicates
         if (Instance == null)
         {
             Instance = this;
-
-            
+            DontDestroyOnLoad(gameObject); // Optional: persist across scenes
         }
         else
         {
@@ -22,26 +22,48 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-        public void PlayBGM()
+    public void PlayBGM()
+    {
+        if (bgm != null && !bgm.isPlaying)
         {
-            if (_BGM != null && !_BGM.isPlaying)
-            {
-                _BGM.Play();
-            }
+            bgm.Play();
         }
+    }
 
-    public void BallBounceSFX() { 
-        if (_BallBounceSFX != null)
+    public void StopBGM()
+    {
+        if (bgm != null && bgm.isPlaying)
         {
-            _BallBounceSFX.PlayOneShot(_BallBounceSFX.clip);
+            bgm.Stop();
         }
+    }
+
+    public void PauseBGM()
+    {
+        if (bgm != null && bgm.isPlaying)
+        {
+            bgm.Pause();
+        }
+    }
+
+    public void BallBounceSFX()
+    {
+        ballBounceSFX?.PlayOneShot(ballBounceSFX.clip);
     }
 
     public void BallDestroySFX()
     {
-        if (_BallDestroySFX != null)
+        ballDestroySFX?.PlayOneShot(ballDestroySFX.clip);
+    }
+
+    /// <summary>
+    /// Play any clip on a specified AudioSource (safe wrapper).
+    /// </summary>
+    public void PlaySFX(AudioSource source, AudioClip clip)
+    {
+        if (source != null && clip != null)
         {
-            _BallDestroySFX.PlayOneShot(_BallDestroySFX.clip);
+            source.PlayOneShot(clip);
         }
     }
 }

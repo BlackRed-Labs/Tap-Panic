@@ -3,217 +3,171 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    // Cached refs
+    private GameManager gameManager;
+    private DifficultyManager difficultyManager;
+    private SpriteRenderer spriteRenderer;
 
-    GameManager gameManager;
-    DifficultyManager difficultyManager;
-    private int Score;
-    
-   
-    float BallLifeSpan = 5f;
-    float SurvivedTime;
-    float BestTime;
-    GameObject NewBestWindow;
+    // Config
+    [SerializeField] private float ballLifeSpan = 5f;
 
+    // State
+    private float survivedTime;
+    private float bestTime;
+    private GameObject newBestWindow;
 
+    private Color color;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        gameManager = GameManager.Instance != null ? GameManager.Instance : FindAnyObjectByType<GameManager>();
+        difficultyManager = FindAnyObjectByType<DifficultyManager>();
+    }
 
     private void Start()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
-        difficultyManager = FindAnyObjectByType<DifficultyManager>();
-        NewBestWindow = gameManager.BestTime;
-        Score = gameManager.score;
+        newBestWindow = gameManager?.BestTime;
+        survivedTime = GameManager.Instance != null ? GameManager.Instance.survivalTime : 0f;
+        bestTime = PlayerPrefs.GetFloat("BestTime", 0f);
+
         StartCoroutine(BallLifeSpanCoroutine());
-
-
-        // high score
-        SurvivedTime = GameManager.Instance.survivalTime;
-        PlayerPrefs.SetFloat("SurvivalTime", SurvivedTime);
-
-        SurvivedTime = PlayerPrefs.GetFloat("SurvivalTime", 0f);
-        BestTime = PlayerPrefs.GetFloat("BestTime", 0f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 hitPoint = collision.GetContact(0).point;
-        if (gameManager != null)
-        {
-            gameManager.BallBounceEffect(gameObject.GetComponent<SpriteRenderer>().color, hitPoint);
-        }
+        var hitPoint = collision.GetContact(0).point;
+        var color = spriteRenderer != null ? spriteRenderer.color : Color.white;
 
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.BallBounceSFX();
-        }
-
+        //gameManager?.BallBounceEffect(color, hitPoint);
+        AudioManager.Instance?.BallBounceSFX();
     }
 
     private void OnMouseDown()
     {
-        gameManager.BallLastPos = transform.position;
-        DestroyTheBall();
+        if (gameManager != null)
+            gameManager.BallLastPos = transform.position;
+           DestroyTheBall();
     }
 
     public void DestroyTheBall()
     {
         LevelSelect();
-        gameManager.ScoreSystem();
-        Color BallColor = gameObject.GetComponent<SpriteRenderer>().color;
-        gameManager.destroyEffect(BallColor);
-        AudioManager.Instance.BallDestroySFX();
+        gameManager?.ScoreSystem();
+         color = spriteRenderer != null ? spriteRenderer.color : Color.white;
+        gameManager?.destroyEffect(color);
+        AudioManager.Instance?.BallDestroySFX();
+
         Destroy(gameObject);
     }
 
     private void LevelSelect()
     {
-        if (Score <= 10)
-        {
+        if (gameManager == null || difficultyManager == null) return;
+
+        int score = gameManager.score;
+
+        // Use a more efficient approach with score ranges
+        if (score <= 10)
             difficultyManager.LevelOne();
-            
-        }
-
-        else if (Score > 10 && Score <= 20)
+        else if (score <= 20)
+            difficultyManager.LevelTwo();
+        else if (score <= 100)
+            difficultyManager.LevelThree();
+        else if (score > 100 && !difficultyManager.is2BallSpawned)
         {
-            difficultyManager.LevelTwo(); // adding swing
-        }
-
-        else if (Score > 20 && Score <= 100)
-        {
-            difficultyManager.LevelThree(); //Ball Speed incrase
-        }
-        else if (Score > 100 && !difficultyManager.is2BallSpawned) //spawn 2 ball
-        {
-            for (int i = 0; i < 2; i++)
-            {
+            for (int i = 0; i < 2; i++) 
                 difficultyManager.LevelFour();
-            }
-            difficultyManager.HeartBall();
             difficultyManager.is2BallSpawned = true;
         }
-
-        else if (Score > 100 && Score <= 300 && difficultyManager.is2BallSpawned)
+        else if (score <= 300 && difficultyManager.is2BallSpawned)
+            difficultyManager.LevelFour();
+        else if (score > 300 && !difficultyManager.is3BallSpawned)
         {
-            difficultyManager.LevelFour(); //continuing 2 ball
-        }
-
-        else if (Score > 300 && !difficultyManager.is3BallSpawned) // spawn 3 ball
-        {
-            for (int i = 0; i < 2; i++)
-            {
+            for (int i = 0; i < 2; i++) 
                 difficultyManager.LevelFive();
-   
-            }
-
-            for (int j = 0; j < 2; j++)
-            {
-                difficultyManager.HeartBall();
-            }
             difficultyManager.is3BallSpawned = true;
         }
-
-
-        else if (Score > 300 && Score < 450 && difficultyManager.is3BallSpawned)
-        {
-            difficultyManager.LevelFive();// continuing 3 ball
-        }
-
-        else if (Score >= 450 && Score <= 550) // Ball speed increase
-        {
+        else if (score < 450 && difficultyManager.is3BallSpawned)
+            difficultyManager.LevelFive();
+        else if (score <= 550)
             difficultyManager.LevelSix();
-        }
-
-        else if (Score > 550 && !difficultyManager.is4BallSpawned) // 4 ball spawn
+        else if (score > 550 && !difficultyManager.is4BallSpawned)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                difficultyManager.LevelSix();  
-            }
-            for (int j = 0; j < 2; j++)
-            {
-                difficultyManager.HeartBall();
-            }
+            for (int i = 0; i < 3; i++) 
+                difficultyManager.LevelSix();
             difficultyManager.is4BallSpawned = true;
         }
-
-        else if (Score > 550 && Score < 700 && difficultyManager.is4BallSpawned)
+        else if (score < 700 && difficultyManager.is4BallSpawned)
+            difficultyManager.LevelSeven();
+        else if (score < 1000)
+            difficultyManager.LevelEight();
+        else if (score < 2000 && !difficultyManager.is5BallSpawned && score > 1000)
         {
-            difficultyManager.LevelSeven(); // continuing 4 ball
-        }
-
-        else if (Score > 700 && Score < 1000)
-        {
-            difficultyManager.LevelEight(); // Ball speed increase
-        }
-
-        else if (Score > 1000 && Score< 2000 && !difficultyManager.is5BallSpawned) // 5 ball spawn
-        {
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) 
                 difficultyManager.LevelNine();
-    
-            }
-            for (int j = 0; j < 3; j++)
-            {
-                difficultyManager.HeartBall();
-            }
             difficultyManager.is5BallSpawned = true;
         }
-
-        else if (Score > 1000 && Score < 2000 && difficultyManager.is4BallSpawned)
-        {
-            difficultyManager.LevelNine(); // continuing 5 ball
-        }
+        else if (score < 2000 && difficultyManager.is4BallSpawned && score > 1000)
+            difficultyManager.LevelNine();
     }
 
-
-    IEnumerator BallLifeSpanCoroutine()
+    private IEnumerator BallLifeSpanCoroutine()
     {
         float elapsed = 0f;
+        // Create gradient Green -> Yellow -> Red for more efficient color transitions
+        Gradient colorGradient = new Gradient();
+        GradientColorKey[] colorKeys = new GradientColorKey[3];
+        colorKeys[0].color = Color.white;
+        colorKeys[0].time = 0f;
+        colorKeys[1].color = Color.yellow;
+        colorKeys[1].time = 0.5f;
+        colorKeys[2].color = Color.red;
+        colorKeys[2].time = 1f;
+        colorGradient.colorKeys = colorKeys;
 
-        while (elapsed < BallLifeSpan)
+        while (elapsed < ballLifeSpan)
         {
-            float t = elapsed / BallLifeSpan;
-
-            // Smooth transition from white → dark red
-            gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.darkRed, t);
+            float t = elapsed / ballLifeSpan;
+            if (spriteRenderer != null)
+                spriteRenderer.color = colorGradient.Evaluate(t);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
-        AudioManager.Instance.BallDestroySFX();
-        Destroy(gameObject);
-        
-        if (gameManager.Health > 0)
+
+        AudioManager.Instance?.BallDestroySFX();
+
+        // Apply health / end-game logic before destroying this GameObject
+        if (gameManager != null)
         {
             gameManager.HealthSystem();
 
-            // If health reached zero after decrement, trigger game over immediately
             if (gameManager.Health <= 0)
             {
-                if (SurvivedTime >= BestTime)
+                // Update best time and show new best window, or trigger game over
+                if (survivedTime >= bestTime)
                 {
-                    PlayerPrefs.SetFloat("BestTime", SurvivedTime);
-
-                    if (NewBestWindow != null)
-                        NewBestWindow.SetActive(true);
+                    PlayerPrefs.SetFloat("BestTime", survivedTime);
+                    newBestWindow?.SetActive(true);
                 }
                 else
                 {
                     gameManager.GameOver();
                 }
             }
+            else if (gameManager.Health <= 0)
+            {
+                // Only trigger revive if health is actually <= 0
+                gameManager.Revive();
+            }
+
+            LevelSelect();
         }
-        else
-        {
-            // If health was already zero or below, ensure game over runs
-            gameManager.Revive();
-        }
-        LevelSelect();
+        gameManager?.destroyEffect(color); ;
+        Destroy(gameObject);
+
     }
-
-  
-
 }
 
 
