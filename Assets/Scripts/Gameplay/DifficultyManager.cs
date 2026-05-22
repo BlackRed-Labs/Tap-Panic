@@ -90,7 +90,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.25f, 3f, 10f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.05f, 1f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.05f, 1.3f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3f, linearDamping: 0.5f);
     }
 
@@ -102,7 +102,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.3f, 3f, 13f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.8f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 1.2f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
     }
 
@@ -114,7 +114,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 50f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.65f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 1f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
     }
 
@@ -126,7 +126,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 55f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.6f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.8f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
     }
 
@@ -138,7 +138,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.6f, 10f, 60f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.6f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0, 0.8f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
     }
 
@@ -150,7 +150,7 @@ public class DifficultyManager : MonoBehaviour
             BallForce = Mathf.Clamp(BallForce + 0.8f, 10f, 65f);
         }
 
-        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.5f);
+        CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.7f);
         SpawnAndConfigureBall(CurrectScaleOfBall, mass: 4.2f, linearDamping: 1f);
     }
 

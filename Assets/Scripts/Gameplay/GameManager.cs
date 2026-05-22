@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     public GameObject CoinPreFab;
     public Vector3 CoinCollectPos;
     public AudioSource CoinCollectSFX;
-    [HideInInspector]
-    public Vector2 BallLastPos;
     [SerializeField]
     private GameObject GameoverWindow;
     [SerializeField]
@@ -35,9 +33,7 @@ public class GameManager : MonoBehaviour
     public CinemachineCamera vcam;
     public GameObject MissedTap;
     public ReviveManager reviveManager;
-    public GameObject Bounceffect;
     public GameObject DestroyEffect;
-    public GameObject MouseclickEffectPrefab;
     public GameObject HowToPlayWindow;
     public GameObject CountDownText;
     public AudioSource ScreenshakeSFX;
@@ -86,8 +82,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Survival time , Mouse input effect , Pause Menu  activate/deactivate
-
     [HideInInspector]
     public bool isGameStarted = false;
 
@@ -97,21 +91,22 @@ public class GameManager : MonoBehaviour
         // ESC key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!isPauseMenuActive && Time.timeScale>0)
+            if (!isPauseMenuActive && Time.timeScale > 0)
             {
                 pauseMenu.PauseGame();
-                isPauseMenuActive=true;
+                isPauseMenuActive = true;
                 MissedTap.SetActive(false);
             }
 
-            else if (isPauseMenuActive && Time.timeScale<1) { 
-            
-              pauseMenu.ResumeGame();
-                isPauseMenuActive=false;
+            else if (isPauseMenuActive && Time.timeScale < 1)
+            {
+
+                pauseMenu.ResumeGame();
+                isPauseMenuActive = false;
                 MissedTap.SetActive(true);
             }
-            
-           
+
+
         }
         #endregion
 
@@ -120,45 +115,14 @@ public class GameManager : MonoBehaviour
 
         survivalTime += Time.deltaTime;
 
-        if(isGameStarted == true)
+        if (isGameStarted == true)
         {
             //formatted internally
             UIManager.AddSurvivalTime(survivalTime);
-            
+
         }
         #endregion
-
-        #region Mouse click effect
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Time.timeScale > 0)
-            {
-                SpawnEffect(Input.mousePosition);
-            }
-        }
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            if (Time.timeScale > 0)
-            {
-                SpawnEffect(Input.GetTouch(0).position);
-            }
-        }
     }
-    
-    void SpawnEffect(Vector3 screenPos)
-    {
-    
-        screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
-
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        worldPos.z = 0f;
-
-        GameObject effect = Instantiate(MouseclickEffectPrefab, worldPos, Quaternion.identity);
-        #endregion
-    }
-
-    #endregion
 
     #region Spawn ball
 
@@ -273,7 +237,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Ball destroy effect
-    public void destroyEffect(Color Ballcolor) { 
+    public void destroyEffect(Color Ballcolor, Vector3 BallLastPos) { 
        GameObject destroyEffect = Instantiate(DestroyEffect, BallLastPos, Quaternion.identity);
         var main = destroyEffect.GetComponent<ParticleSystem>().main;
         main.startColor = Ballcolor;

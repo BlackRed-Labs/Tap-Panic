@@ -29,6 +29,7 @@ public class ReviveManager : MonoBehaviour
     private int totalCoins;
     private GameObject[] activeBalls;
 
+
     private void OnEnable()
     {
         // Cache balls early to avoid repeated FindGameObjectsWithTag calls
@@ -48,6 +49,14 @@ public class ReviveManager : MonoBehaviour
         // Update coin display
         UpdateCoinDisplay();
 
+        //update revive price display
+        if (priceText != null) priceText.text = RevivePrice.ToString();
+
+        // Disable revive if insufficient coins
+        var priceBox = root.Q<GroupBox>("PriceGroup");
+        if (reviveButton != null) reviveButton.SetEnabled(totalCoins >= RevivePrice);
+        if (priceBox != null) priceBox.SetEnabled(totalCoins >= RevivePrice);
+
         // Pause BGM
         BGM?.Pause();
     }
@@ -62,19 +71,16 @@ public class ReviveManager : MonoBehaviour
         bestTimeText = root.Q<Label>("BestTime");
         remainingCoinsLabel = root.Q<Label>("RemainingCoins");
 
-        var priceBox = root.Q<GroupBox>("PriceGroup");
+       
 
         // Wire up button callbacks
         closeButton?.RegisterCallback<ClickEvent>(_ => OnCloseButton());
         reviveButton?.RegisterCallback<ClickEvent>(_ => OnReviveButton());
         watchAdButton?.RegisterCallback<ClickEvent>(_ => OnWatchAdButton());
 
-        // Set price display
-        if (priceText != null) priceText.text = RevivePrice.ToString();
+       
 
-        // Disable revive if insufficient coins
-        if (reviveButton != null) reviveButton.SetEnabled(totalCoins >= RevivePrice);
-        if (priceBox != null) priceBox.SetEnabled(totalCoins >= RevivePrice);
+        
     }
 
     private void UpdateTimeDisplay()

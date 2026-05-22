@@ -45,8 +45,9 @@ public class Ball : MonoBehaviour
 
     private void OnMouseDown()
     {
+        
         if (gameManager != null)
-            gameManager.BallLastPos = transform.position;
+         
            DestroyTheBall();
     }
 
@@ -55,7 +56,7 @@ public class Ball : MonoBehaviour
         LevelSelect();
         gameManager?.ScoreSystem();
          color = spriteRenderer != null ? spriteRenderer.color : Color.white;
-        gameManager?.destroyEffect(color);
+        gameManager?.destroyEffect(color, transform.position);
         AudioManager.Instance?.BallDestroySFX();
 
         Destroy(gameObject);
@@ -69,14 +70,24 @@ public class Ball : MonoBehaviour
 
         // Use a more efficient approach with score ranges
         if (score <= 10)
+        {
             difficultyManager.LevelOne();
+            Debug.Log("Level 1");
+        }
         else if (score <= 20)
+        {
             difficultyManager.LevelTwo();
+                Debug.Log("Level 2");
+        }
         else if (score <= 100)
+        {
             difficultyManager.LevelThree();
+                Debug.Log("Level 3");
+        }
         else if (score > 100 && !difficultyManager.is2BallSpawned)
         {
-            for (int i = 0; i < 2; i++) 
+            Debug.Log("Level 4");
+            for (int i = 0; i < 2; i++)
                 difficultyManager.LevelFour();
             difficultyManager.is2BallSpawned = true;
         }
@@ -84,7 +95,7 @@ public class Ball : MonoBehaviour
             difficultyManager.LevelFour();
         else if (score > 300 && !difficultyManager.is3BallSpawned)
         {
-            for (int i = 0; i < 2; i++) 
+            for (int i = 0; i < 2; i++)
                 difficultyManager.LevelFive();
             difficultyManager.is3BallSpawned = true;
         }
@@ -94,7 +105,7 @@ public class Ball : MonoBehaviour
             difficultyManager.LevelSix();
         else if (score > 550 && !difficultyManager.is4BallSpawned)
         {
-            for (int i = 0; i < 3; i++) 
+            for (int i = 0; i < 3; i++)
                 difficultyManager.LevelSix();
             difficultyManager.is4BallSpawned = true;
         }
@@ -104,7 +115,7 @@ public class Ball : MonoBehaviour
             difficultyManager.LevelEight();
         else if (score < 2000 && !difficultyManager.is5BallSpawned && score > 1000)
         {
-            for (int i = 0; i < 4; i++) 
+            for (int i = 0; i < 4; i++)
                 difficultyManager.LevelNine();
             difficultyManager.is5BallSpawned = true;
         }
@@ -164,7 +175,7 @@ public class Ball : MonoBehaviour
 
             LevelSelect();
         }
-        gameManager?.destroyEffect(color); ;
+        gameManager?.destroyEffect(color, transform.position);
         Destroy(gameObject);
 
     }

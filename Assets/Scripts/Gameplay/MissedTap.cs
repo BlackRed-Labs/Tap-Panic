@@ -3,6 +3,7 @@ using UnityEngine;
 public class MissedTap : MonoBehaviour
 {
     public GameManager GameManager;
+    [SerializeField] private GameObject MouseclickEffectPrefab;
 
     private void OnMouseDown()
     {
@@ -12,7 +13,8 @@ public class MissedTap : MonoBehaviour
         {
 
             GameManager.HealthSystem();
-            
+            mouseClickEffect();
+
 
             // If health reached zero after decrement, trigger Revive immediately
             if (GameManager.Health <= 0)
@@ -22,4 +24,39 @@ public class MissedTap : MonoBehaviour
         }
         
     }
+
+    void mouseClickEffect() {
+        #region Mouse click effect
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Time.timeScale > 0)
+            {
+                SpawnEffect(Input.mousePosition);
+            }
+        }
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            if (Time.timeScale > 0)
+            {
+                SpawnEffect(Input.GetTouch(0).position);
+            }
+        }
+    }
+
+    void SpawnEffect(Vector3 screenPos)
+    {
+
+        screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        worldPos.z = 0f;
+
+        GameObject effect = Instantiate(MouseclickEffectPrefab, worldPos, Quaternion.identity);
+        #endregion
+    }
+
+
+
 }
+
