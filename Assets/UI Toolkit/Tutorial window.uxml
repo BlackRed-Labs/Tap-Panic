@@ -1,68 +1,35 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/How%20to%20play.uss?fileID=7433441132597879392&amp;guid=532a661c916cc1641a580e27e69914bf&amp;type=3#How to play"/>
-
-    <ui:Image name="Background" style="top: -221px; right: -89px; bottom: -565px; left: -164px; position: absolute; aspect-ratio: auto; min-height: 2481px; background-color: rgb(0, 0, 0); opacity: 0.98;"/>
-
-    <ui:Image name="Window" style="position: absolute; height: 1119px; width: 900px; top: -32px; left: 428px; background-color: rgb(255, 255, 255); border-top-left-radius: 60px; border-top-right-radius: 60px; border-bottom-right-radius: 60px; border-bottom-left-radius: 60px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(125, 125, 125); border-right-color: rgb(125, 125, 125); border-top-color: rgb(125, 125, 125); border-bottom-color: rgb(125, 125, 125); align-items: center; scale: 0.5 0.5; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;); -unity-font-style: bold;">
-
+    <ui:Image name="Background" style="top: 0%; right: 0%; bottom: -1402px; left: 0%; position: absolute; aspect-ratio: auto; min-height: 2481px; background-color: rgb(0, 0, 0); opacity: 0.99;"/>
+    <ui:Image name="Window" style="position: absolute; height: 1119px; width: 900px; top: 0%; left: 28%; background-color: rgb(255, 255, 255); border-top-left-radius: 60px; border-top-right-radius: 60px; border-bottom-right-radius: 60px; border-bottom-left-radius: 60px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(125, 125, 125); border-right-color: rgb(125, 125, 125); border-top-color: rgb(125, 125, 125); border-bottom-color: rgb(125, 125, 125); align-items: center; scale: 0.5 0.5; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;); -unity-font-style: bold; right: 0%; bottom: 0%;">
         <ui:Image name="Hedder" style="min-height: auto; max-width: none; aspect-ratio: 1.777778; position: absolute; height: 208px; width: 900px; -unity-background-image-tint-color: rgb(182, 93, 255); background-color: rgb(172, 112, 255); border-top-left-radius: 60px; border-top-right-radius: 60px; top: -5px; left: 0;">
-
             <ui:Label text="How to play" name="HedderText" style="height: 202px; font-size: 122px; -unity-font-style: bold; -unity-text-align: middle-center; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;); color: rgb(255, 255, 255);"/>
-
         </ui:Image>
-
         <ui:GroupBox name="1" style="height: 184px; position: absolute; width: 853px; top: 224px; left: 1px; flex-direction: column-reverse; align-items: flex-start; justify-content: center; align-self: center;">
-
             <ui:Image name="Nuber" style="height: 100px; width: 100px; position: absolute; top: 46px; left: 27px; font-size: 40px; -unity-font-style: bold; border-left-color: rgb(172, 112, 255); border-right-color: rgb(172, 112, 255); border-top-color: rgb(172, 112, 255); border-bottom-color: rgb(172, 112, 255); background-color: rgb(172, 112, 255); border-top-left-radius: 46px; border-top-right-radius: 46px; border-bottom-right-radius: 46px; border-bottom-left-radius: 46px;">
-
                 <ui:Label text="1" name="Number" style="-unity-text-align: upper-center; height: 94px; font-size: 60px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
             </ui:Image>
-
             <ui:Label text="Tap the Ball before it changes the color to " style="width: 692px; height: 128px; position: absolute; left: 155px; -unity-text-align: middle-left; white-space: pre-wrap; font-size: 49px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
             <ui:Label text="RED" style="width: 104px; height: 52px; position: absolute; left: 420px; -unity-text-align: middle-left; white-space: pre-wrap; font-size: 52px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/Others/CherryBombOne-Regular%20SDF.asset?fileID=11400000&amp;guid=f453cb1cac347c24d927a365a21d463c&amp;type=2#CherryBombOne-Regular SDF&quot;); top: 85px; color: rgb(255, 0, 0);"/>
-
         </ui:GroupBox>
-
         <ui:GroupBox name="2" style="height: 184px; position: absolute; width: 853px; top: 390px; left: 1px; flex-direction: column-reverse; align-items: flex-start; justify-content: center; align-self: center;">
-
             <ui:Image name="Nuber" style="height: 100px; width: 100px; position: absolute; top: 46px; left: 27px; font-size: 40px; -unity-font-style: bold; border-left-color: rgb(172, 112, 255); border-right-color: rgb(172, 112, 255); border-top-color: rgb(172, 112, 255); border-bottom-color: rgb(172, 112, 255); background-color: rgb(172, 112, 255); border-top-left-radius: 46px; border-top-right-radius: 46px; border-bottom-right-radius: 46px; border-bottom-left-radius: 46px;">
-
                 <ui:Label text="2" name="Number" style="-unity-text-align: upper-center; height: 94px; font-size: 60px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
             </ui:Image>
-
             <ui:Label text="Score Points" style="width: 692px; height: 128px; position: absolute; left: 155px; -unity-text-align: middle-left; white-space: pre-wrap; font-size: 49px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
         </ui:GroupBox>
-
         <ui:GroupBox name="3" style="height: 184px; position: absolute; width: 853px; top: 556px; left: -1px; flex-direction: column-reverse; align-items: flex-start; justify-content: center; align-self: center;">
-
             <ui:Image name="Nuber" style="height: 100px; width: 100px; position: absolute; top: 46px; left: 27px; font-size: 40px; -unity-font-style: bold; border-left-color: rgb(172, 112, 255); border-right-color: rgb(172, 112, 255); border-top-color: rgb(172, 112, 255); border-bottom-color: rgb(172, 112, 255); background-color: rgb(172, 112, 255); border-top-left-radius: 46px; border-top-right-radius: 46px; border-bottom-right-radius: 46px; border-bottom-left-radius: 46px;">
-
                 <ui:Label text="3" name="Number" style="-unity-text-align: upper-center; height: 94px; font-size: 60px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
             </ui:Image>
-
             <ui:Label text="Tapping outside loses LIFE " style="width: 692px; height: 128px; position: absolute; left: 155px; -unity-text-align: middle-left; white-space: pre-wrap; font-size: 49px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
         </ui:GroupBox>
-
         <ui:GroupBox name="4" style="height: 184px; position: absolute; width: 853px; top: 727px; left: -1px; flex-direction: column-reverse; align-items: flex-start; justify-content: center; align-self: center;">
-
             <ui:Image name="Nuber" style="height: 100px; width: 100px; position: absolute; top: 46px; left: 27px; font-size: 40px; -unity-font-style: bold; border-left-color: rgb(172, 112, 255); border-right-color: rgb(172, 112, 255); border-top-color: rgb(172, 112, 255); border-bottom-color: rgb(172, 112, 255); background-color: rgb(172, 112, 255); border-top-left-radius: 46px; border-top-right-radius: 46px; border-bottom-right-radius: 46px; border-bottom-left-radius: 46px;">
-
                 <ui:Label text="4" name="Number" style="-unity-text-align: upper-center; height: 94px; font-size: 60px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
             </ui:Image>
-
             <ui:Label text="Beat your HighScore" style="width: 692px; height: 128px; position: absolute; left: 155px; -unity-text-align: middle-left; white-space: pre-wrap; font-size: 49px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&amp;guid=26ed19abafa453e48a1150d463d04cc1&amp;type=2#ChangaOne-Regular SDF&quot;);"/>
-
         </ui:GroupBox>
-
         <ui:Button text="GOT IT!" name="GotIt" class="how-to-play Got-it" style="-unity-font-definition: url(&quot;project://database/Assets/Others/CherryBombOne-Regular%20SDF.asset?fileID=11400000&amp;guid=f453cb1cac347c24d927a365a21d463c&amp;type=2#CherryBombOne-Regular SDF&quot;); -unity-font-style: normal; color: rgb(57, 114, 19);"/>
-
     </ui:Image>
-
 </ui:UXML>

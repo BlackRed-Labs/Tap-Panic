@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,10 +28,12 @@ public class ReviveManager : MonoBehaviour
     private float bestTime;
     private int totalCoins;
     private GameObject[] activeBalls;
+    int AdwatchedCount = 0;
 
 
     private void OnEnable()
     {
+        CrazyGamesManager.Instance.OnGamePaused(); // Notify CrazyGames SDK that gameplay is paused (revive window open)
         // Cache balls early to avoid repeated FindGameObjectsWithTag calls
         activeBalls = GameObject.FindGameObjectsWithTag("Ball");
         DisableBallColliders(activeBalls);
@@ -54,11 +56,25 @@ public class ReviveManager : MonoBehaviour
 
         // Disable revive if insufficient coins
         var priceBox = root.Q<GroupBox>("PriceGroup");
+
         if (reviveButton != null) reviveButton.SetEnabled(totalCoins >= RevivePrice);
         if (priceBox != null) priceBox.SetEnabled(totalCoins >= RevivePrice);
 
         // Pause BGM
         BGM?.Pause();
+
+
+        //disable watch ad button after 3 watches
+        if (AdwatchedCount >= 2 && watchAdButton != null)
+        {
+            watchAdButton.SetEnabled(false);
+        }
+
+        // Start coroutine to enable buttons after delay (prevents accidental clicks)
+        StartCoroutine(ButtonEnabledelay(new Button[] { reviveButton, watchAdButton, closeButton }));
+
+       
+
     }
 
     private void CacheUIElements(VisualElement root)
@@ -71,16 +87,13 @@ public class ReviveManager : MonoBehaviour
         bestTimeText = root.Q<Label>("BestTime");
         remainingCoinsLabel = root.Q<Label>("RemainingCoins");
 
-       
+
 
         // Wire up button callbacks
-        closeButton?.RegisterCallback<ClickEvent>(_ => OnCloseButton());
-        reviveButton?.RegisterCallback<ClickEvent>(_ => OnReviveButton());
-        watchAdButton?.RegisterCallback<ClickEvent>(_ => OnWatchAdButton());
+        closeButton.clicked += OnCloseButton;
+        reviveButton.clicked += OnReviveButton;
+        watchAdButton.clicked += OnWatchAdButton;
 
-       
-
-        
     }
 
     private void UpdateTimeDisplay()
@@ -137,6 +150,7 @@ public class ReviveManager : MonoBehaviour
 
     private void OnCloseButton()
     {
+      
         gameObject.SetActive(false);
         BGM?.UnPause();
 
@@ -153,11 +167,15 @@ public class ReviveManager : MonoBehaviour
 
     private void OnReviveButton()
     {
+        CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has resumed (player revived)
         BGM?.UnPause();
 
         CoinManager?.RemoveCoinsFromTotal(RevivePrice);
-        RevivePrice *= 2;
 
+        if (reviveButton != null && reviveButton.enabledSelf)
+        {
+            RevivePrice *= 2;
+        }
         // Reset health and UI
         if (GameManager != null)
         {
@@ -177,18 +195,66 @@ public class ReviveManager : MonoBehaviour
         GameManager?.MissedTap?.SetActive(true);
     }
 
+    IEnumerator ButtonEnabledelay(Button[] buttons)
+    {
+        bool[] wasEnabled = new bool[buttons.Length];
+
+        // Temporarily disable only currently enabled buttons
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i] == null) continue;
+
+            wasEnabled[i] = buttons[i].enabledSelf;
+
+            if (wasEnabled[i])
+            {
+                buttons[i].SetEnabled(false);
+            }
+        }
+
+        yield return new WaitForSecondsRealtime(0.08f);
+
+        // Re-enable only buttons that were originally enabled
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i] == null) continue;
+
+            if (wasEnabled[i])
+            {
+                buttons[i].SetEnabled(true);
+            }
+        }
+    }
+
+
     private void OnWatchAdButton()
     {
-        // Watch ad and revive (same as revive button for now)
-        OnReviveButton();
+        AdwatchedCount++;
+        Debug.Log("Ad watched count: " + AdwatchedCount);
+        CrazyGamesAdsManager.Instance.ShowRewardedAd(OnReviveButton);
+
     }
 
     private void OnDisable()
     {
-        // Re-enable ball colliders when window closes
+        // Remove UI Toolkit callbacks
+        if (closeButton != null)
+            closeButton.clicked -= OnCloseButton;
+
+        if (reviveButton != null)
+            reviveButton.clicked -= OnReviveButton;
+
+        if (watchAdButton != null)
+            watchAdButton.clicked -= OnWatchAdButton;
+
+        // Re-enable ball colliders
         if (activeBalls != null && activeBalls.Length > 0)
         {
             EnableBallColliders(activeBalls);
         }
     }
+
 }
+    
+
+    

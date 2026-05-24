@@ -43,7 +43,7 @@ public class DifficultyManager : MonoBehaviour
         rb.AddForce(new Vector2(dir * force, 0f), ForceMode2D.Impulse);
     }
 
-    private GameObject SpawnAndConfigureBall(float scale, float mass = 1f, float linearDamping = 0.2f)
+    private GameObject SpawnAndConfigureBall(float scale, int mass=3)
     {
         var ball = SpawnBallFromManager();
         if (ball == null) return null;
@@ -54,7 +54,6 @@ public class DifficultyManager : MonoBehaviour
         if (rb != null)
         {
             rb.mass = mass;
-            rb.linearDamping = linearDamping;
         }
 
         ApplyInitialForce(rb, BallForce);
@@ -91,7 +90,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.05f, 1.3f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3f, linearDamping: 0.5f);
+        SpawnAndConfigureBall(CurrectScaleOfBall, 5);
     }
 
     public void LevelFive()
@@ -103,7 +102,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 1.2f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
     public void LevelSix()
@@ -115,7 +114,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 1f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.2f, linearDamping: 0.6f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
     public void LevelSeven()
@@ -127,7 +126,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.8f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
     public void LevelEight()
@@ -139,7 +138,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0, 0.8f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 3.8f, linearDamping: 0.8f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
     public void LevelNine()
@@ -151,7 +150,7 @@ public class DifficultyManager : MonoBehaviour
         }
 
         CurrectScaleOfBall = Mathf.Max(CurrectScaleOfBall - 0.01f, 0.7f);
-        SpawnAndConfigureBall(CurrectScaleOfBall, mass: 4.2f, linearDamping: 1f);
+        SpawnAndConfigureBall(CurrectScaleOfBall);
     }
 
     #endregion

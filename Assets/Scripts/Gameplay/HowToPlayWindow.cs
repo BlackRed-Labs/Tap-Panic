@@ -16,6 +16,7 @@ public class HowToPlayWindow : MonoBehaviour
 
     public void GotItButton() { 
         gameObject.SetActive(false);
+        Time.timeScale = 1f;
         gameManager.CountDownText.SetActive(true);
         CountdownTimer.Instance.UpdateCountDown(3);
 

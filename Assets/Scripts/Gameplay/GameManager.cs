@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Unity.Cinemachine;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -39,25 +37,32 @@ public class GameManager : MonoBehaviour
     public AudioSource ScreenshakeSFX;
     public GameObject BestTime;
     public PauseMenu pauseMenu;
-    bool isPauseMenuActive = false;
-    
+   
+    [HideInInspector] 
+    public bool isPauseMenuActive = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        
         Instance = this;
         Application.targetFrameRate = 200;
         impulseSource = GetComponent<CinemachineImpulseSource>();
+        
     }
 
     void Start()
     {
+        CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has started
+       
 
         if (PlayerPrefs.GetString("IsHowToPlayShown", "No") == "No")
         {
             if (HowToPlayWindow != null)
             {
                 HowToPlayWindow.SetActive(true);
+                Time.timeScale = 0f;
             }
 
             PlayerPrefs.SetString("IsHowToPlayShown", "Yes");
@@ -68,10 +73,11 @@ public class GameManager : MonoBehaviour
             CountDownText.SetActive(true);
             CountdownTimer.Instance.UpdateCountDown(3);
         }
+       
     }
-   
+
     #region Start Game
-     
+
     public void StartGame()
     {
 
@@ -94,16 +100,11 @@ public class GameManager : MonoBehaviour
             if (!isPauseMenuActive && Time.timeScale > 0)
             {
                 pauseMenu.PauseGame();
-                isPauseMenuActive = true;
-                MissedTap.SetActive(false);
             }
 
             else if (isPauseMenuActive && Time.timeScale < 1)
             {
-
                 pauseMenu.ResumeGame();
-                isPauseMenuActive = false;
-                MissedTap.SetActive(true);
             }
 
 
@@ -128,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject SpawnBall()
     {
-        Spawnedball = Instantiate(ballPrefab, new Vector2(UnityEngine.Random.Range(-1.3f, 1.3f), UnityEngine.Random.Range(0f, 2f)), Quaternion.identity);
+        Spawnedball = Instantiate(ballPrefab, new Vector2(UnityEngine.Random.Range(-0.16f, 2.5f), UnityEngine.Random.Range(0f, 1.8f)), Quaternion.identity);
         return Spawnedball;
 
     }
@@ -171,23 +172,26 @@ public class GameManager : MonoBehaviour
     public void HealthSystem()
     {
         Health--;
+        if (Health <= 0)
+        {
+            Health = 0;
+        }
         cameraShake();
-        UIManager.RemoveLife(4-Health);
+        UIManager.RemoveLife(4 - Health);
     }
     #endregion
 
     #region Game Over
     public void GameOver()
     {
-        
-        difficultyManager.StopAllCoroutines();
-        UIManager.enabled = false;
-        reviveManager.RevivePrice = 50;
         GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (GameObject ball in balls)
         {
             Destroy(ball);
         }
+
+        difficultyManager.StopAllCoroutines();
+        reviveManager.RevivePrice = 50;  
         MissedTap.SetActive(false);
         Time.timeScale = 0f;
 
@@ -205,9 +209,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Revive 
-    public void Revive() 
+    public void Revive()
     {
-        
+
         difficultyManager.StopAllCoroutines();
         MissedTap.SetActive(false);
         Time.timeScale = 0f;
@@ -227,18 +231,19 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region camera shake
-    public void cameraShake() 
-    { 
-      impulseSource.GenerateImpulse();
-      BGM.Pause();
+    public void cameraShake()
+    {
+        impulseSource.GenerateImpulse();
+        BGM.Pause();
         ScreenshakeSFX.PlayOneShot(ScreenshakeSFX.clip);
         BGM.UnPause();
     }
     #endregion
 
     #region Ball destroy effect
-    public void destroyEffect(Color Ballcolor, Vector3 BallLastPos) { 
-       GameObject destroyEffect = Instantiate(DestroyEffect, BallLastPos, Quaternion.identity);
+    public void destroyEffect(Color Ballcolor, Vector3 BallLastPos)
+    {
+        GameObject destroyEffect = Instantiate(DestroyEffect, BallLastPos, Quaternion.identity);
         var main = destroyEffect.GetComponent<ParticleSystem>().main;
         main.startColor = Ballcolor;
         destroyEffect.GetComponent<ParticleSystem>().Play();
@@ -246,16 +251,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-   /* #region Ball Bounce Effect
-
-    public void BallBounceEffect(Color Ballcolor, Vector2 hitPoint)
-    {
-        GameObject bounceEffect = Instantiate(Bounceffect, hitPoint, Quaternion.identity);
-        var main = bounceEffect.GetComponent<ParticleSystem>().main;
-        main.startColor = Ballcolor;
-        bounceEffect.GetComponent<ParticleSystem>().Play();
-    }
-    #endregion*/
+   
 
 
 }

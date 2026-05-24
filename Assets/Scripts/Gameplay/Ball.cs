@@ -27,7 +27,7 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
-        newBestWindow = gameManager?.BestTime;
+        newBestWindow = gameManager.BestTime;
         survivedTime = GameManager.Instance != null ? GameManager.Instance.survivalTime : 0f;
         bestTime = PlayerPrefs.GetFloat("BestTime", 0f);
 
@@ -36,11 +36,14 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var hitPoint = collision.GetContact(0).point;
+        
         var color = spriteRenderer != null ? spriteRenderer.color : Color.white;
 
         //gameManager?.BallBounceEffect(color, hitPoint);
-        AudioManager.Instance?.BallBounceSFX();
+        if (GetInstanceID() < collision.gameObject.GetInstanceID()) {
+            AudioManager.Instance?.BallBounceSFX();
+        }
+            
     }
 
     private void OnMouseDown()
@@ -131,7 +134,7 @@ public class Ball : MonoBehaviour
         GradientColorKey[] colorKeys = new GradientColorKey[3];
         colorKeys[0].color = Color.white;
         colorKeys[0].time = 0f;
-        colorKeys[1].color = Color.yellow;
+        colorKeys[1].color = Color.white;
         colorKeys[1].time = 0.5f;
         colorKeys[2].color = Color.red;
         colorKeys[2].time = 1f;
@@ -147,7 +150,6 @@ public class Ball : MonoBehaviour
             yield return null;
         }
 
-        AudioManager.Instance?.BallDestroySFX();
 
         // Apply health / end-game logic before destroying this GameObject
         if (gameManager != null)
@@ -156,26 +158,15 @@ public class Ball : MonoBehaviour
 
             if (gameManager.Health <= 0)
             {
-                // Update best time and show new best window, or trigger game over
-                if (survivedTime >= bestTime)
-                {
-                    PlayerPrefs.SetFloat("BestTime", survivedTime);
-                    newBestWindow?.SetActive(true);
-                }
-                else
-                {
-                    gameManager.GameOver();
-                }
-            }
-            else if (gameManager.Health <= 0)
-            {
+               
                 // Only trigger revive if health is actually <= 0
                 gameManager.Revive();
             }
 
             LevelSelect();
         }
-        gameManager?.destroyEffect(color, transform.position);
+        gameManager.destroyEffect(color, transform.position);
+        AudioManager.Instance?.BallDestroySFX();
         Destroy(gameObject);
 
     }

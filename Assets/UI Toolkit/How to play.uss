@@ -34,11 +34,16 @@
     transition-duration: 0.6s;
     transition-timing-function: ease-in-out-elastic;
     -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
+    background-color: rgba(94, 188, 31, 0);
+    -unity-font-style: normal;
+    bottom: auto;
+    right: auto;
+    left: auto;
+    padding-left: 38px;
 }
 
 .Got-it:active {
-    background-color: rgb(41, 41, 41);
+    background-color: rgb(94, 188, 31);
     -unity-font-definition: url("project://database/Assets/Others/ChangaOne-Regular%20SDF.asset?fileID=11400000&guid=26ed19abafa453e48a1150d463d04cc1&type=2#ChangaOne-Regular SDF");
+   
 }
-
-

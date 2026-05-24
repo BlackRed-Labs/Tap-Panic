@@ -75,7 +75,9 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
-             Time.timeScale = 0f;
+        gameManager.isPauseMenuActive = true;
+        gameManager.MissedTap.SetActive(false);
+        Time.timeScale = 0f;
              gameObject.SetActive(true);
              
         PauseSFX.PlayOneShot(PauseSFX.clip);
@@ -87,6 +89,8 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        gameManager.isPauseMenuActive = false;
+        gameManager.MissedTap.SetActive(true);
         GameObject[] Balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (GameObject ball in Balls)
         {

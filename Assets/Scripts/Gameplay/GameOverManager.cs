@@ -11,6 +11,7 @@ public class GameOverManager : MonoBehaviour
     public GameObject MissedTap;
     private Label BestTime;
     public CoinManager CoinManager;
+    
 
     //2X button variable
     Button _TwoXButton;
@@ -28,11 +29,13 @@ public class GameOverManager : MonoBehaviour
         SurvivalTimeText = root.Q<Label>("SurvivalTimeText");
         CoinCount = root.Q<Label>("CoinCount");
         BestTime = root.Q<Label>("BestTime");
-        root.Q<Button>("PlayAgain").clicked += PlayAgain;
+
+        //Play again button
+        root.Q<Button>("PlayAgain").clicked += ShowIntestitialAds;
 
         //2X button
         _TwoXButton = root.Q<Button>("TwoXButton");
-        _TwoXButton.clicked += TwoXbutton;
+        _TwoXButton.clicked += CoindoubleAfterWatingAds;
         
 
         SurvivalTime();
@@ -79,17 +82,29 @@ public class GameOverManager : MonoBehaviour
         SurvivalTimeText.text = minutes.ToString("00") + ":" + seconds.ToString("00") + "s";
     }
     #endregion
-    
-    #region Play again
-    private void PlayAgain() { 
 
-     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    #region Play again
+
+    void ShowIntestitialAds() { 
+      
+        CrazyGamesAdsManager.Instance.ShowMidgameAd(PlayAgain);
+
+    }
+    private void PlayAgain() {
+         // Show a midgame ad before restarting the level
+        CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has started again
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
      MissedTap.SetActive(true);
      Time.timeScale = 1f; 
     }
     #endregion
 
-    #region
+    #region 2X button
+
+    void CoindoubleAfterWatingAds() {
+        CrazyGamesAdsManager.Instance.ShowRewardedAd(TwoXbutton);
+    }   
+
     private void TwoXbutton() 
     {
         twoXButtonpressedCount++;

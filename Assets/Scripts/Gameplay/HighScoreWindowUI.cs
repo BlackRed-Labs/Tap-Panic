@@ -17,6 +17,8 @@ public class HighScoreWindowUI : MonoBehaviour
 
     private void OnEnable()
     {
+        CrazyGamesManager.Instance.OnGamePaused();
+
         Balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (GameObject ball in Balls)
         {
@@ -26,11 +28,8 @@ public class HighScoreWindowUI : MonoBehaviour
             }
         }
 
-
-
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         Label HighscoreText = root.Q<Label>("NewBestTime");
-
 
         //New Best
         float NewBest = PlayerPrefs.GetFloat("BestTime", 0f);
@@ -38,11 +37,11 @@ public class HighScoreWindowUI : MonoBehaviour
 
         //Extra coins
         Earnedcoins = root.Q<Label>("EarnedCoins");
-        newBest = Mathf.RoundToInt(NewBest)*2;
+        newBest = Mathf.RoundToInt(NewBest) * 2;
 
         //2X button
         twoXbutton = root.Q<Button>("TwoXbutton");
-        twoXbutton.clicked += TwoXButton;
+        twoXbutton.clicked += CoinDoubleAfterWatchAds;
 
         //Continue button
         root.Q<Button>("Continue").clicked += ContinueButton;
@@ -51,13 +50,10 @@ public class HighScoreWindowUI : MonoBehaviour
         Label TotalCoinText = root.Q<Label>("TotalCoins");
         Totalconis = PlayerPrefs.GetInt("TotalCoins", 500);
         TotalCoinText.text = Totalconis.ToString();
-
-
     }
 
-
     //timer count animation
-   private IEnumerator CountAnimation(float targetTime, Label text)
+    private IEnumerator CountAnimation(float targetTime, Label text)
     {
         float currentTime = 0f;
 
@@ -76,15 +72,14 @@ public class HighScoreWindowUI : MonoBehaviour
             yield return null;
 
             CountSFX.PlayOneShot(CountSFX.clip);
-            
         }
-       
-        StartCoroutine(CoincountAnimation(newBest));
 
+        StartCoroutine(CoincountAnimation(newBest));
     }
 
     //coin count animation
-   private IEnumerator CoincountAnimation(int TotalCoins) {
+    private IEnumerator CoincountAnimation(int TotalCoins)
+    {
 
         int currentCoins = 0;
 
@@ -94,39 +89,36 @@ public class HighScoreWindowUI : MonoBehaviour
             Earnedcoins.text = currentCoins.ToString();
             yield return null;
             coinCountSFX.PlayOneShot(coinCountSFX.clip);
-
         }
-        
-       
+    }
 
+    void CoinDoubleAfterWatchAds()
+    {
+        CrazyGamesAdsManager.Instance.ShowRewardedAd(TwoXButton);
     }
 
     //2X button
-    private void TwoXButton() 
+    private void TwoXButton()
     {
         TwoXcount++;
         newBest = newBest * 2;
         StartCoroutine(CoincountAnimation(newBest));
 
-        if (TwoXcount >= 2) 
-        { 
-          twoXbutton.SetEnabled(false);
-        
+        if (TwoXcount >= 2)
+        {
+            twoXbutton.SetEnabled(false);
         }
-
     }
 
     //Continue button
-    private void ContinueButton() 
+    private void ContinueButton()
     {
-        if (!twoXbutton.enabledSelf) { 
-          twoXbutton.SetEnabled(true);
+        if (!twoXbutton.enabledSelf)
+        {
+            twoXbutton.SetEnabled(true);
         }
 
         CoinManager.AddCoinsToTotal(newBest);
         GameManager.Instance.GameOver();
-    
     }
-
-
 }

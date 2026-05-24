@@ -145,7 +145,7 @@ TextureImporter:
     resizeAlgorithm: 1
     textureFormat: 50
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 40
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
@@ -171,7 +171,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c41ad61e26f0124c95e5e202bf56ca2
+      spriteID: 49e7898bf46424f44a88cb9ee86acf2d
       internalID: 117741996
       vertices: []
       indices: 
@@ -181,10 +181,10 @@ TextureImporter:
       name: New Gameplay UI assets_1
       rect:
         serializedVersion: 2
-        x: 424
-        y: 1830
-        width: 512
-        height: 132
+        x: 420
+        y: 1833
+        width: 516
+        height: 129
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,7 +193,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d4a87a5281adb144ae101fa4bc121cc
+      spriteID: 4c3a1b50b466daa47888eeee8e655fcd
       internalID: -1112645860
       vertices: []
       indices: 
@@ -215,7 +215,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 987ae029b8869c1439a4c13b5b7b7174
+      spriteID: 2ed8765adcc228944a6534fa01ee5d28
       internalID: -2121199749
       vertices: []
       indices: 
@@ -237,7 +237,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dacc52269df0e2a49ab1ec7d6fd09f8f
+      spriteID: d9720aa7555b5ed449fd1663418f5446
       internalID: -9154181020724422935
       vertices: []
       indices: 
@@ -247,9 +247,9 @@ TextureImporter:
       name: New Gameplay UI assets_4
       rect:
         serializedVersion: 2
-        x: 490
+        x: 491
         y: 1508
-        width: 17
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -259,7 +259,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d658ba44ad570fd42b7bcd1405bd0ce6
+      spriteID: d17b44831eefc844a90261467ff57fe5
       internalID: -6121766692754518253
       vertices: []
       indices: 
@@ -281,7 +281,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d2e6e82d70b32a49999a512d2f52484
+      spriteID: a28b3ff94a4df0a458ac91f9c81505f8
       internalID: 6025021758688119304
       vertices: []
       indices: 
@@ -291,10 +291,10 @@ TextureImporter:
       name: New Gameplay UI assets_6
       rect:
         serializedVersion: 2
-        x: 119
-        y: 324
-        width: 512
-        height: 1032
+        x: 118
+        y: 325
+        width: 514
+        height: 1031
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -303,7 +303,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27c4819c70376e34ca2077f7a987d16f
+      spriteID: a2ab744b7cd0d8443927cf2529bfb9bd
       internalID: 60666210
       vertices: []
       indices: 
@@ -314,9 +314,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 810
-        y: 1114
+        y: 1110
         width: 258
-        height: 257
+        height: 261
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -325,7 +325,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7142ef0f40f3294aae6911991c8119d
+      spriteID: 95e5840131c23d9469866b595f231b17
       internalID: 1621434195
       vertices: []
       indices: 
@@ -347,7 +347,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d862fe12faa3dc47922f6c5625dd241
+      spriteID: e51109a1dd69c264b8a3942a82e1b8f5
       internalID: 452995734
       vertices: []
       indices: 
@@ -369,7 +369,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78b9d6dab7db9b249842f617c4d86934
+      spriteID: 7806cc5c4b5890345a1d05c4ef21bde7
       internalID: 1302843596
       vertices: []
       indices: 
@@ -382,7 +382,7 @@ TextureImporter:
         x: 689
         y: 84
         width: 539
-        height: 367
+        height: 374
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -391,7 +391,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d6a21f826a5893478971ba6cb8d8340
+      spriteID: 124d1e14a03f1604195ffe874a3ae782
       internalID: 1510126332
       vertices: []
       indices: 
