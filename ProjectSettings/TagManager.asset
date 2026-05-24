@@ -10,6 +10,7 @@ TagManager:
   - Tap Missed
   - Ball Destroy SFX
   - BestTimeWindow
+  - heart
   layers:
   - Default
   - TransparentFX

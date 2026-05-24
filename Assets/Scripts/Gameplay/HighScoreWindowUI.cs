@@ -14,10 +14,13 @@ public class HighScoreWindowUI : MonoBehaviour
     int TwoXcount = 0;
     Button twoXbutton;
     GameObject[] Balls;
+    Coroutine currentCoinAnimationCoroutine; // Track active coroutine
 
     private void OnEnable()
     {
         CrazyGamesManager.Instance.OnGamePaused();
+
+        AudioManager.Instance?.PauseBGM();
 
         Balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (GameObject ball in Balls)
@@ -48,7 +51,7 @@ public class HighScoreWindowUI : MonoBehaviour
 
         //Load Total coins
         Label TotalCoinText = root.Q<Label>("TotalCoins");
-        Totalconis = PlayerPrefs.GetInt("TotalCoins", 500);
+        Totalconis = PlayerPrefs.GetInt("TotalCoins", 250);
         TotalCoinText.text = Totalconis.ToString();
     }
 
@@ -74,14 +77,14 @@ public class HighScoreWindowUI : MonoBehaviour
             CountSFX.PlayOneShot(CountSFX.clip);
         }
 
-        StartCoroutine(CoincountAnimation(newBest));
+        // Start coin animation after timer completes
+        currentCoinAnimationCoroutine = StartCoroutine(CoincountAnimation(0, newBest));
     }
 
-    //coin count animation
-    private IEnumerator CoincountAnimation(int TotalCoins)
+    //coin count animation - now accepts start and end values
+    private IEnumerator CoincountAnimation(int startCoins, int TotalCoins)
     {
-
-        int currentCoins = 0;
+        int currentCoins = startCoins;
 
         while (currentCoins < TotalCoins)
         {
@@ -90,6 +93,9 @@ public class HighScoreWindowUI : MonoBehaviour
             yield return null;
             coinCountSFX.PlayOneShot(coinCountSFX.clip);
         }
+        
+        // Ensure final value is set
+        Earnedcoins.text = TotalCoins.ToString();
     }
 
     void CoinDoubleAfterWatchAds()
@@ -101,8 +107,18 @@ public class HighScoreWindowUI : MonoBehaviour
     private void TwoXButton()
     {
         TwoXcount++;
+        
+        // Stop any currently running coin animation
+        if (currentCoinAnimationCoroutine != null)
+        {
+            StopCoroutine(currentCoinAnimationCoroutine);
+        }
+
+        int previousBest = newBest;
         newBest = newBest * 2;
-        StartCoroutine(CoincountAnimation(newBest));
+        
+        // Start new animation from previous count to new count
+        currentCoinAnimationCoroutine = StartCoroutine(CoincountAnimation(previousBest, newBest));
 
         if (TwoXcount >= 2)
         {
@@ -113,12 +129,20 @@ public class HighScoreWindowUI : MonoBehaviour
     //Continue button
     private void ContinueButton()
     {
+        // Stop any running coroutine before continuing
+        if (currentCoinAnimationCoroutine != null)
+        {
+            StopCoroutine(currentCoinAnimationCoroutine);
+        }
+
         if (!twoXbutton.enabledSelf)
         {
             twoXbutton.SetEnabled(true);
         }
 
         CoinManager.AddCoinsToTotal(newBest);
+        AudioManager.Instance?.UnpauseBGM();
         GameManager.Instance.GameOver();
+
     }
 }

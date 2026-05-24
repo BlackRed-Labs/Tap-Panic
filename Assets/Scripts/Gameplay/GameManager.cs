@@ -4,45 +4,69 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    #region Singleton
+    public static GameManager Instance { get; private set; } = null!;
+    #endregion
+
+    #region Ball Spawning
     public GameObject ballPrefab;
     GameObject Spawnedball;
     public float Ballforce;
+    #endregion
+
+    #region Scoring System
     public int score = 0;
-    public UIManager UIManager;
-    public DifficultyManager difficultyManager;
-    public int Health = 5;
-    int BonusScore = 0;
     public int ScoreMultiplyerDelay;
-    [HideInInspector]
-    public bool isBonusScoreActive = false;
-    public GameObject CoinPreFab;
-    public Vector3 CoinCollectPos;
-    public AudioSource CoinCollectSFX;
-    [SerializeField]
-    private GameObject GameoverWindow;
-    [SerializeField]
-    private GameObject ReviveWindow;
-    [SerializeField]
-    private AudioSource BGM;
-    public float survivalTime;
-    bool isAlive = true;
-    private CinemachineImpulseSource impulseSource;
-    public CinemachineCamera vcam;
-    public GameObject MissedTap;
-    public ReviveManager reviveManager;
-    public GameObject DestroyEffect;
+    #endregion
+
+    #region Health System
+    public int Health = 5;
+    #endregion
+
+    #region UI References
+    public UIManager UIManager;
+    public GameObject GameoverWindow;
+    public GameObject ReviveWindow;
     public GameObject HowToPlayWindow;
     public GameObject CountDownText;
-    public AudioSource ScreenshakeSFX;
     public GameObject BestTime;
     public PauseMenu pauseMenu;
-   
-    [HideInInspector] 
+    #endregion
+
+    #region Audio
+    [SerializeField]
+    private AudioSource BGM;
+    public AudioSource ScreenshakeSFX;
+    #endregion
+
+    #region Gameplay State
+    public float survivalTime;
+    bool isAlive = true;
+    [HideInInspector]
+    public bool isGameStarted = false;
+    [HideInInspector]
     public bool isPauseMenuActive = false;
+    #endregion
 
+    #region Managers & Components
+    public DifficultyManager difficultyManager;
+    private CinemachineImpulseSource impulseSource;
+    public CinemachineCamera vcam;
+    public ReviveManager reviveManager;
+    #endregion
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    #region Visual Effects
+    public GameObject MissedTap;
+    public GameObject DestroyEffect;
+    #endregion
+
+    [Header("PreFabs")]
+    [SerializeField]
+    private GameObject HeartIcon;
+    [SerializeField]
+    private Vector3 HeartMovementTargetPosition;
+    
+
     private void Awake()
     {
         
@@ -54,9 +78,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        
         CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has started
        
-
         if (PlayerPrefs.GetString("IsHowToPlayShown", "No") == "No")
         {
             if (HowToPlayWindow != null)
@@ -83,13 +107,13 @@ public class GameManager : MonoBehaviour
 
         BGM.Play();
         MissedTap.SetActive(true);
-        difficultyManager.LevelOne();
-        difficultyManager.LevelOne();
+        
+        //Spawn 2 balls at the start of the game
+        for (int i = 0; i < 2; i++) { 
+            difficultyManager.LevelOne();
+        }
     }
     #endregion
-
-    [HideInInspector]
-    public bool isGameStarted = false;
 
     private void Update()
     {
@@ -123,6 +147,8 @@ public class GameManager : MonoBehaviour
 
         }
         #endregion
+
+
     }
 
     #region Spawn ball
@@ -139,31 +165,11 @@ public class GameManager : MonoBehaviour
     public void ScoreSystem()
     {
         score++;
-        score = score + BonusScore;
+       
         UIManager.AddScore(score);
         PlayerPrefs.SetInt("Score", score);
 
     }
-
-    #region double Score powerup
-
-    public void DoubleScore()
-    {
-        StartCoroutine(DoubpleScoreManager(ScoreMultiplyerDelay));
-
-    }
-
-    IEnumerator DoubpleScoreManager(int ScoreMultiplyerDelay)
-    {
-        isBonusScoreActive = true;
-        BonusScore = 1;
-        yield return new WaitForSeconds(ScoreMultiplyerDelay);
-        BonusScore = 0;
-        isBonusScoreActive = false;
-
-    }
-
-    #endregion
 
     #endregion
 
@@ -184,15 +190,10 @@ public class GameManager : MonoBehaviour
     #region Game Over
     public void GameOver()
     {
-        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
-        foreach (GameObject ball in balls)
-        {
-            Destroy(ball);
-        }
 
         difficultyManager.StopAllCoroutines();
-        reviveManager.RevivePrice = 50;  
-        MissedTap.SetActive(false);
+        difficultyManager.ResetMilestoneFlags();
+        reviveManager.RevivePrice = 100;  
         Time.timeScale = 0f;
 
         //Best Time Logic
@@ -251,9 +252,93 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-   
+    #region Health collect effect
+    public void AddHealthEffect(Vector3 HeartSpawnPosition) { 
+     
+         StartCoroutine(HearticonMovememnt(HeartSpawnPosition));
 
+    }
 
+    IEnumerator HearticonMovememnt(Vector3 HeartSpawnPosition)
+    {
+        GameObject heart = Instantiate(HeartIcon, HeartSpawnPosition, Quaternion.identity);
+
+        Vector3 targetposition = HeartMovementTargetPosition;
+
+        float elapsedTime = 0f;
+
+        float popInDuration = 0.25f;
+        float moveDuration = 1f;
+        float popOutDuration = 0.3f;
+
+        Vector3 maxScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+        // Start invisible
+        heart.transform.localScale = Vector3.zero;
+
+        // ---------------- POP IN ----------------
+        while (elapsedTime < popInDuration)
+        {
+            float t = elapsedTime / popInDuration;
+
+            // Smooth easing-
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            heart.transform.localScale = Vector3.Lerp(Vector3.zero, maxScale, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        heart.transform.localScale = maxScale;
+
+        // ---------------- MOVE ----------------
+        elapsedTime = 0f;
+
+        while (elapsedTime < moveDuration)
+        {
+            float t = elapsedTime / moveDuration;
+
+            // Smooth movement
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            heart.transform.position = Vector3.Lerp(HeartSpawnPosition, targetposition, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        heart.transform.position = targetposition;
+
+        // ---------------- POP OUT ----------------
+        elapsedTime = 0f;
+
+        while (elapsedTime < popOutDuration)
+        {
+            float t = elapsedTime / popOutDuration;
+
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            heart.transform.localScale = Vector3.Lerp(maxScale, Vector3.zero, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(heart);
+    }
+    #endregion
 }
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static AudioManager Instance { get; private set; } = null!;
 
     [SerializeField] private AudioSource bgm;
     [SerializeField] private AudioSource ballBounceSFX;
     [SerializeField] private AudioSource ballDestroySFX;
+    [SerializeField] private AudioSource healthCollectedSFX;
 
     private void Awake()
     {
@@ -46,6 +47,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void UnpauseBGM()
+    {
+        if (bgm != null && !bgm.isPlaying)
+        {
+            bgm.UnPause();
+        }
+    }
+
     public void BallBounceSFX()
     {
         ballBounceSFX?.PlayOneShot(ballBounceSFX.clip);
@@ -54,6 +63,15 @@ public class AudioManager : MonoBehaviour
     public void BallDestroySFX()
     {
         ballDestroySFX?.PlayOneShot(ballDestroySFX.clip);
+    }
+
+    public void PlayHealthCollected() 
+    {
+        PauseBGM();
+        healthCollectedSFX.Play();
+        AddDelay.instance.AddDelayToAction(healthCollectedSFX.clip.length); // Wait for the health collected sound to finish
+        PlayBGM();
+
     }
 
     /// <summary>

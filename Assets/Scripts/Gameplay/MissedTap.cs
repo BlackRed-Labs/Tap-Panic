@@ -4,59 +4,48 @@ public class MissedTap : MonoBehaviour
 {
     public GameManager GameManager;
     [SerializeField] private GameObject MouseclickEffectPrefab;
+    private bool isClicked = false; // Prevent multiple clicks in same frame
 
     private void OnMouseDown()
     {
+        // Guard clauses to prevent issues
+        if (isClicked || GameManager == null) return;
         if (!gameObject.CompareTag("Tap Missed")) return;
+        if (GameManager.Health <= 0) return; // Already dead, don't process
+        if (Time.timeScale == 0) return; // Game is paused
 
-        if (GameManager.Health > 0 && GameManager != null && gameObject.CompareTag("Tap Missed"))
-        {
-
-            GameManager.HealthSystem();
-            mouseClickEffect();
-
-
-            // If health reached zero after decrement, trigger Revive immediately
-            if (GameManager.Health <= 0)
-            {
-                GameManager.Revive();
-            }
-        }
+        isClicked = true;
         
-    }
+        GameManager.HealthSystem();
+        SpawnClickEffect();
 
-    void mouseClickEffect() {
-        #region Mouse click effect
-        if (Input.GetMouseButtonDown(0))
+        // If health reached zero after decrement, trigger Revive immediately
+        if (GameManager.Health <= 0)
         {
-            if (Time.timeScale > 0)
-            {
-                SpawnEffect(Input.mousePosition);
-            }
+            GameManager.Revive();
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            if (Time.timeScale > 0)
-            {
-                SpawnEffect(Input.GetTouch(0).position);
-            }
-        }
+        // Reset for next frame
+        Invoke(nameof(ResetClick), 0.05f);
     }
 
-    void SpawnEffect(Vector3 screenPos)
+    private void ResetClick()
     {
+        isClicked = false;
+    }
 
-        screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
+    private void SpawnClickEffect()
+    {
+        // Only spawn effect if time is running
+        if (Time.timeScale <= 0) return;
 
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        Vector3 effectPos = Input.mousePosition;
+        effectPos.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(effectPos);
         worldPos.z = 0f;
 
         GameObject effect = Instantiate(MouseclickEffectPrefab, worldPos, Quaternion.identity);
-        #endregion
     }
-
-
-
 }
 

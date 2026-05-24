@@ -54,21 +54,25 @@ public class GameOverManager : MonoBehaviour
     #region coincount
     private void CoinsCount() { 
         
-        StartCoroutine(AnimateCoins(coins));
+        StartCoroutine(AnimateCoins(0, coins));
         CoinManager.AddCoinsToTotal(coins);
     }
 
-    IEnumerator AnimateCoins(int targetCoins)
+    /// <summary>
+    /// Animates coin count from startCoins to targetCoins
+    /// </summary>
+    IEnumerator AnimateCoins(int startCoins, int targetCoins)
     {
-        int startCoins = 0;
-        while (startCoins < targetCoins) {
-
-            CoinCount.text = startCoins.ToString();
-            startCoins++;
+        int currentCoins = startCoins;
+        while (currentCoins < targetCoins) 
+        {
+            CoinCount.text = currentCoins.ToString();
+            currentCoins++;
             CoincollectSFX.PlayOneShot(CoincollectSFX.clip);
             yield return null;
         }
-
+        // Ensure final value is displayed
+        CoinCount.text = targetCoins.ToString();
     }
     #endregion
 
@@ -108,15 +112,17 @@ public class GameOverManager : MonoBehaviour
     private void TwoXbutton() 
     {
         twoXButtonpressedCount++;
-        coins = coins*2;
-        StartCoroutine(AnimateCoins(coins));
+        int previousCoins = coins;
+        coins = coins * 2;
+        
+        // Animate from previous coin count to new count
+        StartCoroutine(AnimateCoins(previousCoins, coins));
         CoinManager.AddCoinsToTotal(coins);
        
         if (twoXButtonpressedCount >= 2)
         {
             _TwoXButton.SetEnabled(false);
         }
-
     }
 
 

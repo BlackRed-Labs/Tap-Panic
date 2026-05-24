@@ -15,14 +15,17 @@ MonoBehaviour:
   m_Session:
     userModels:
       m_Items:
-      - id: ef5f01cb-43a2-4a1e-a2c4-9daf49dd578e
+      - id: 6b9ded1b-ef9b-42c6-8c89-bac74f3a0e9f
         name: New Model
         type: 
         thumbnail: 
         trainingStatus: 0
         trainingSteps: 0
         trainingImages:
-          m_Items: []
+          m_Items:
+          - id: 5f3f8518-13d0-40bd-84ae-de6338769633
+            url: 
+            prompt: Enter a prompt
         learningRate: 0
         tags:
           m_Items: []
@@ -41,7 +44,7 @@ MonoBehaviour:
           - name: Optimize Portrait
             type: 0
             value: false
-    selectedUserModelId: ef5f01cb-43a2-4a1e-a2c4-9daf49dd578e
+    selectedUserModelId: 6b9ded1b-ef9b-42c6-8c89-bac74f3a0e9f
     baseModels:
       m_Items:
       - id: flux

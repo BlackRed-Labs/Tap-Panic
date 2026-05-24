@@ -13,7 +13,7 @@ public class ReviveManager : MonoBehaviour
     public GameObject NewBestWindow;
 
     [Header("Settings")]
-    [HideInInspector] public int RevivePrice = 50;
+     public int RevivePrice = 100;
 
     // Cached UI elements
     private Label priceText;
@@ -36,7 +36,7 @@ public class ReviveManager : MonoBehaviour
         CrazyGamesManager.Instance.OnGamePaused(); // Notify CrazyGames SDK that gameplay is paused (revive window open)
         // Cache balls early to avoid repeated FindGameObjectsWithTag calls
         activeBalls = GameObject.FindGameObjectsWithTag("Ball");
-        DisableBallColliders(activeBalls);
+        DisableBalls(activeBalls);
 
         // Get UI root once
         var root = GetComponent<UIDocument>()?.rootVisualElement;
@@ -120,30 +120,29 @@ public class ReviveManager : MonoBehaviour
 
     private void UpdateCoinDisplay()
     {
-        totalCoins = PlayerPrefs.GetInt("TotalCoins", 500);
+        totalCoins = PlayerPrefs.GetInt("TotalCoins", 250);
         if (remainingCoinsLabel != null) remainingCoinsLabel.text = totalCoins.ToString();
     }
 
-    private void DisableBallColliders(GameObject[] balls)
+    private void DisableBalls(GameObject[] balls)
     {
         foreach (var ball in balls)
         {
             if (ball != null)
             {
-                var collider = ball.GetComponent<CircleCollider2D>();
-                if (collider != null) collider.enabled = false;
+                ball.SetActive(false);
             }
         }
     }
 
-    private void EnableBallColliders(GameObject[] balls)
+    private void EnableBalls(GameObject[] balls)
     {
+
         foreach (var ball in balls)
         {
             if (ball != null)
             {
-                var collider = ball.GetComponent<CircleCollider2D>();
-                if (collider != null) collider.enabled = true;
+                ball.SetActive(true);
             }
         }
     }
@@ -182,7 +181,8 @@ public class ReviveManager : MonoBehaviour
             GameManager.Health = 5;
         }
 
-        for (int i = 0; i < 5; i++)
+        // Restore all 5 hearts by passing health values 1-5
+        for (int i = 1; i <= 5; i++)
         {
             UIManager?.AddLife(i);
         }
@@ -250,11 +250,8 @@ public class ReviveManager : MonoBehaviour
         // Re-enable ball colliders
         if (activeBalls != null && activeBalls.Length > 0)
         {
-            EnableBallColliders(activeBalls);
+            EnableBalls(activeBalls);
         }
     }
 
 }
-    
-
-    
