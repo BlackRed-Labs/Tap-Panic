@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoinManager
   TotalCoins: 0
   UImanager: {fileID: 641131308}
+  InitialCoins: 250
 --- !u!1 &274643722
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,7 +617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
   ApplyAfter: 2
   ChannelMask: 1
-  Gain: 1
+  Gain: 3
   Use2DDistance: 0
   UseCameraSpace: 1
   SignalCombinationMode: 0
@@ -637,6 +638,7 @@ GameObject:
   - component: {fileID: 404407206}
   - component: {fileID: 404407207}
   - component: {fileID: 404407208}
+  - component: {fileID: 404407209}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -654,7 +656,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.94, y: 3.91, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1115525717}
@@ -674,29 +676,27 @@ MonoBehaviour:
   ballPrefab: {fileID: 4379639808889767511, guid: 3233d21cde62be748888556b2ff191e5, type: 3}
   Ballforce: 10
   score: 0
-  UIManager: {fileID: 641131308}
-  difficultyManager: {fileID: 1997450665}
-  Health: 5
   ScoreMultiplyerDelay: 5
-  isBonusScoreActive: 0
-  CoinPreFab: {fileID: 592964705288582173, guid: 62cf75c8d32a6ed46ba21f13aa720d3e, type: 3}
-  CoinCollectPos: {x: 0, y: 4, z: 0}
-  CoinCollectSFX: {fileID: 1780330143}
+  Health: 5
+  UIManager: {fileID: 641131308}
   GameoverWindow: {fileID: 1645700745}
   ReviveWindow: {fileID: 1087520947}
-  BGM: {fileID: 501163174}
-  survivalTime: 0
-  vcam: {fileID: 335702436}
-  MissedTap: {fileID: 913580491}
-  reviveManager: {fileID: 1087520950}
-  DestroyEffect: {fileID: 6951159306198366007, guid: 80dcc6065d0ddb04ca78b534e601a554, type: 3}
   HowToPlayWindow: {fileID: 1213135982}
   CountDownText: {fileID: 881240055}
-  ScreenshakeSFX: {fileID: 1296099857}
   BestTime: {fileID: 274643722}
   pauseMenu: {fileID: 979695300}
-  isPauseMenuActive: 0
+  BGM: {fileID: 501163174}
+  ScreenshakeSFX: {fileID: 1296099857}
+  survivalTime: 0
   isGameStarted: 0
+  isPauseMenuActive: 0
+  difficultyManager: {fileID: 1997450665}
+  vcam: {fileID: 335702436}
+  reviveManager: {fileID: 1087520950}
+  MissedTap: {fileID: 913580491}
+  DestroyEffect: {fileID: 6951159306198366007, guid: 80dcc6065d0ddb04ca78b534e601a554, type: 3}
+  HeartIcon: {fileID: 1177101156609173115, guid: 1686418d2c6026341ba4ae36405baa55, type: 3}
+  HeartMovementTargetPosition: {x: 1.94, y: 3.91, z: 0}
 --- !u!114 &404407208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +750,18 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0.2, y: 0, z: 0}
+--- !u!114 &404407209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404407205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d3cebd3bc7fd24fb96ed60cfc5aa86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AddDelay
 --- !u!1 &501163172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,8 +1050,8 @@ MonoBehaviour:
   UpdateMethod: 2
   BlendUpdateMethod: 1
   LensModeOverride:
-    Enabled: 0
-    DefaultMode: 2
+    Enabled: 1
+    DefaultMode: 1
   DefaultBlend:
     Style: 1
     Time: 2
@@ -1132,7 +1144,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.14527369, y: 4.770243}
+  m_Offset: {x: 0.27972627, y: 4.770243}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1142,7 +1154,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10.028956, y: 0.18712711}
+  m_Size: {x: 9.980341, y: 0.18712711}
   m_EdgeRadius: 0
 --- !u!1 &572232407
 GameObject:
@@ -1450,50 +1462,7 @@ MonoBehaviour:
   bgm: {fileID: 501163174}
   ballBounceSFX: {fileID: 2132910705}
   ballDestroySFX: {fileID: 1631529022}
---- !u!1 &695998108
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 695998109}
-  - component: {fileID: 695998110}
-  m_Layer: 0
-  m_Name: CrazyGame Ads Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &695998109
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695998108}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1115525717}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &695998110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695998108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3135525d6334e124b90cb9aa7057cd7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrazyGamesAdsManager
+  healthCollectedSFX: {fileID: 899980800}
 --- !u!1 &701030632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,7 +1753,7 @@ Transform:
   m_GameObject: {fileID: 890013858}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.52, y: 1.48, z: 0}
+  m_LocalPosition: {x: 1.94, y: 3.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1801,7 +1770,7 @@ GameObject:
   - component: {fileID: 899980799}
   - component: {fileID: 899980800}
   m_Layer: 0
-  m_Name: Revive window SFX
+  m_Name: Health up SFX
   m_TagString: Ball Tap SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,11 +1802,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 9acfcebefb1e08143ab8a65dd967e27e, type: 3}
+  m_Resource: {fileID: 8300000, guid: da84cbe015fc00d4b8e792bb15ab9f89, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 2.47
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2051,7 +2020,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -2805,8 +2774,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 404407206}
-  - {fileID: 1628934794}
-  - {fileID: 695998109}
   - {fileID: 1997450664}
   - {fileID: 677165941}
   - {fileID: 207831940}
@@ -3017,7 +2984,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: aa3878bfe857cbb45bdb1d3a369ac718, type: 3}
+  m_Resource: {fileID: 8300000, guid: 44dc84ef3b3935c4b80cbec1ddd6e013, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 3
@@ -3169,7 +3136,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.14527369, y: 4.770243}
+  m_Offset: {x: 0.27523327, y: 4.770243}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3179,7 +3146,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 10.028956, y: 0.18712711}
+  m_Size: {x: 9.967602, y: 0.18712711}
   m_EdgeRadius: 0
 --- !u!1 &1441935561
 GameObject:
@@ -3247,7 +3214,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.007051587, y: 4.893796}
+  m_Offset: {x: 0.0057270527, y: 4.9186163}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3257,52 +3224,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5.181736, y: 0.4826584}
+  m_Size: {x: 4.656482, y: 0.3447647}
   m_EdgeRadius: 0
---- !u!1 &1628934793
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1628934794}
-  - component: {fileID: 1628934795}
-  m_Layer: 0
-  m_Name: CrazyGame SDK Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1628934794
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628934793}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1115525717}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1628934795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628934793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b922b1a322b75840a3ac3ef25112c0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrazyGameSDKManager
 --- !u!1 &1631529020
 GameObject:
   m_ObjectHideFlags: 0
@@ -3747,6 +3670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyManager
   gameManager: {fileID: 404407207}
+  heartBallPrefab: {fileID: 5010745592613038077, guid: 45e81e9ca490ea04781b7669e36d64b2, type: 3}
+  healthBuffBallPrefab: {fileID: 5010745592613038077, guid: 45e81e9ca490ea04781b7669e36d64b2, type: 3}
   BallForce: 5
   CurrectScaleOfBall: 1.5
   isBombSpawned: 0
@@ -3754,6 +3679,9 @@ MonoBehaviour:
   is3BallSpawned: 0
   is4BallSpawned: 0
   is5BallSpawned: 0
+  isLevel4Started: 0
+  isLevel8Started: 0
+  isLevel12Started: 0
 --- !u!1 &2132910703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3949,7 +3877,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.007051468, y: 4.7581367}
+  m_Offset: {x: 0.005502701, y: 4.7445498}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3959,7 +3887,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5.181736, y: 0.21134043}
+  m_Size: {x: 5.0420647, y: 0.18416595}
   m_EdgeRadius: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

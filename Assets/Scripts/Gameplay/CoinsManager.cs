@@ -9,12 +9,12 @@ public class CoinManager : MonoBehaviour
     [HideInInspector]
     public int TotalCoins;
     public UIManager UImanager;
+    public int InitialCoins = 250;
 
     private void Awake()
     {
-       
         // Load saved coins
-        TotalCoins = PlayerPrefs.GetInt("TotalCoins", 500);
+        TotalCoins = PlayerPrefs.GetInt("TotalCoins", InitialCoins);
         
     }
 

@@ -5,6 +5,20 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; } = null!;
+     void Awake()
+    {
+        // Singleton: keep first instance, destroy duplicates
+        if (Instance == null)
+        {
+            Instance = this;
+            
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private Label scoreLabel;
     private Label SurvivedTime;
@@ -33,12 +47,22 @@ public class UIManager : MonoBehaviour
 
     public void RemoveLife(int Life)
     {
-        hearts[Life].style.display = DisplayStyle.None;
+        // Life parameter is the number of hearts to show (0-4)
+        // Index should match directly since we disable hearts from the end
+        if (Life >= 0 && Life < hearts.Count)
+        {
+            hearts[Life].style.display = DisplayStyle.None;
+        }
     }
 
-    public void AddLife(int Life)
+    public void AddLife(int Health)
     {
-        hearts[Life].style.display = DisplayStyle.Flex;
+        // Health is 1-5, convert to 0-4 for array index
+        int index = Health - 1;
+        if (index >= 0 && index < hearts.Count)
+        {
+            hearts[index].style.display = DisplayStyle.Flex;
+        }
     }
 
     public void AddScore(int score)
@@ -52,12 +76,10 @@ public class UIManager : MonoBehaviour
         int seconds = Mathf.FloorToInt(time % 60f);
 
         SurvivedTime.text = minutes.ToString("00") + ":" + seconds.ToString("00");
-       
     }
 
     public void LoadTheSavedCoin() {
-       int totalCoins = PlayerPrefs.GetInt("TotalCoins", 500);
+       int totalCoins = PlayerPrefs.GetInt("TotalCoins", 250);
         TotalCoins.text = totalCoins.ToString();
     }
-
 }
