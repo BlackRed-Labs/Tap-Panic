@@ -21,8 +21,6 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
-    m_path: Assets/Scenes/LoadingScene.unity
-  - m_enabled: 1
     m_path: Assets/Scenes/Gameplay Scene.unity
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []

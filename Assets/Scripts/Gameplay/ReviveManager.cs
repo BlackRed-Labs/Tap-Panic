@@ -33,7 +33,7 @@ public class ReviveManager : MonoBehaviour
 
     private void OnEnable()
     {
-        CrazyGamesManager.Instance.OnGamePaused(); // Notify CrazyGames SDK that gameplay is paused (revive window open)
+      
         // Cache balls early to avoid repeated FindGameObjectsWithTag calls
         activeBalls = GameObject.FindGameObjectsWithTag("Ball");
         DisableBalls(activeBalls);
@@ -166,7 +166,7 @@ public class ReviveManager : MonoBehaviour
 
     private void OnReviveButton()
     {
-        CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has resumed (player revived)
+        
         BGM?.UnPause();
 
         CoinManager?.RemoveCoinsFromTotal(RevivePrice);
@@ -231,7 +231,7 @@ public class ReviveManager : MonoBehaviour
     {
         AdwatchedCount++;
         Debug.Log("Ad watched count: " + AdwatchedCount);
-        CrazyGamesAdsManager.Instance.ShowRewardedAd(OnReviveButton);
+        
 
     }
 

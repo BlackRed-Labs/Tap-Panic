@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
-        CrazyGamesManager.Instance.OnGameplayBegins(); // Notify CrazyGames SDK that gameplay has started
+       
        
         if (PlayerPrefs.GetString("IsHowToPlayShown", "No") == "No")
         {

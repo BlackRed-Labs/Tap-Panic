@@ -18,7 +18,7 @@ public class HighScoreWindowUI : MonoBehaviour
 
     private void OnEnable()
     {
-        CrazyGamesManager.Instance.OnGamePaused();
+       
 
         AudioManager.Instance?.PauseBGM();
 
@@ -44,7 +44,7 @@ public class HighScoreWindowUI : MonoBehaviour
 
         //2X button
         twoXbutton = root.Q<Button>("TwoXbutton");
-        twoXbutton.clicked += CoinDoubleAfterWatchAds;
+        twoXbutton.clicked += TwoXButton;
 
         //Continue button
         root.Q<Button>("Continue").clicked += ContinueButton;
@@ -98,10 +98,6 @@ public class HighScoreWindowUI : MonoBehaviour
         Earnedcoins.text = TotalCoins.ToString();
     }
 
-    void CoinDoubleAfterWatchAds()
-    {
-        CrazyGamesAdsManager.Instance.ShowRewardedAd(TwoXButton);
-    }
 
     //2X button
     private void TwoXButton()
