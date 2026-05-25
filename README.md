@@ -75,17 +75,6 @@ The game is designed with satisfying bounce physics, smooth UI animations and en
   </a>
 </p>
 
-# 📷 Screenshots
-
-*Add gameplay screenshots here.*
-
-```md
-
-```
-
----
-
-
 ---
 
 # 📂 Project Structure
